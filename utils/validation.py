@@ -1,13 +1,13 @@
 
 # Hash a single string with hashlib.sha256
 from hashlib import sha256
-import json
 import os
 
 from tomlkit import string
 
+from config_utilities import *
+
 HASH_CONFIG_FILENAME = "hashes.json"
-ENCODING = "utf-8"
 tempDict = {}
 
 
@@ -28,11 +28,7 @@ def readFileContent(filename):
     else:
         return None
 
-def is_empty(filename) -> bool:
-    """
-        Check if a file is empty
-    """
-    return os.path.getsize(filename) == 0
+
 
 """
 FILE IO METHODS
@@ -78,44 +74,14 @@ def generate_newFileHash(_file):
 
 def generate_newStringHash(name, data):
     add_entry_to_config(name, hash_string(data))
+
+def saveTempData(name: str, value: str):
+    tempDict[name] = value
 """
 CONVINIENT MENTHODS
 """
 
 
-"""
-CONFIG IO UTILS METHODS
-"""
-def load_config() -> dict:
-    """
-        Load config into a dictionary
-    """
-    if not os.path.exists(HASH_CONFIG_FILENAME) or is_empty(HASH_CONFIG_FILENAME):
-        return {}
-
-    with open(HASH_CONFIG_FILENAME, "r", encoding=ENCODING) as config:
-        return json.load(config)
-
-def save_to_config(config) -> None:
-    """
-        Save a dict to config file
-    """
-
-    with open(HASH_CONFIG_FILENAME, "w", encoding=ENCODING) as config_file:
-        json.dump(config, config_file)
-
-def add_entry_to_config(name: str, value: str):
-    config = load_config()
-
-    config[name] = value
-
-    save_to_config(config)
-
-def saveTempData(name: str, value: str):
-    tempDict[name] = value
-"""
-CONFIG IO UTILS METHODS
-"""
 
 if __name__ == '__main__':
     print("file validation practice\n")
