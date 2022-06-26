@@ -2,7 +2,7 @@
     "isFirstRun" : true,
     "cred-input-dir" : "credentials",
     "cred-output-dir" : "secured-credentials",
-    "cipher-token-file" : "token.json",
-    "usr-cred-file" : "user-cred.json",
-    "hashes-file" : "hashes.json"
+    "cipher-token-file" : ".\\user-config\\token.json",
+    "usr-cred-file" : ".\\user-config\\user-cred.json",
+    "hashes-file" : ".\\user-config\\hashes.json"
 }
