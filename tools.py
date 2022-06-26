@@ -10,6 +10,8 @@ from utils.log_neko import *
 INIT TOOLS METHODS
 """
 config = load_config("config.json")
+def isFirstRun():
+    return config["isFirstRun"]
 def init_first_run_sequence():
     message_info("Initializing first run sequence")
     

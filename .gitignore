@@ -1,4 +1,5 @@
 __pycache__
 .\credentials\*
 .\secured-credentials\*
-.\sigma-ciphers-cryptograms
+.\sigma_ciphers_cryptograms\*
+config.json
