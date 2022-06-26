@@ -1,0 +1,3 @@
+
+if __name__ == '__main__':
+    print("THIS IS ADAPTER MODULE TO CONECTING THE PROCESS BETWEEN CORE AND MAIN")
