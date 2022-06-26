@@ -2,6 +2,8 @@ from asyncio import subprocess
 from multiprocessing.connection import wait
 
 from gevent import config
+from rsa import PrivateKey
+from utils.validation import *
 from utils.config_utilities import *
 import subprocess
 from utils.log_neko import *
@@ -12,6 +14,7 @@ INIT TOOLS METHODS
 config = load_config("config.json")
 def isFirstRun():
     return config["isFirstRun"]
+
 def init_first_run_sequence():
     message_info("Initializing first run sequence")
     
@@ -25,12 +28,49 @@ def init_first_run_sequence():
     message_info("changed first run status to false")
     add_entry_to_config("config.json","isFirstRun", False)
 
+    message_info("Initializing User Authentication")
+
     message_info("succesfully runned first run sequence")
 
 def init_config(filenames):
     open(filenames["cipher-token-file"], "w").close()
     open(filenames["usr-cred-file"], "w").close()
     open(filenames["hashes-file"], "w").close()
+
+def init_user_auth():
+    user_cred_config = config["usr-cred-file"]
+    username = input("Enter your username: ")
+    password = input("Enter your master password: ")
+
+    hashedUsrname = hash_string(username)
+    hashedPassword = hash_string(password)
+
+    add_entry_to_config(user_cred_config, "username", hashedUsrname)
+    add_entry_to_config(user_cred_config, "password", hashedPassword)
+    message_info("succesfully added user credentials")
+
+    
+def init_token():
+    
+    token = ""
+    privateKey = ""
+    
+    message_info("generating user token")
+    
+    try:
+        from sigma_ciphers_cryptograms import core as sigma_core
+        tokenLen = int(input("Enter your token length: "))
+        token = sigma_core.generate_token(tokenLen)
+        privateKey = sigma_core.generate_private_key(token)
+    except ModuleNotFoundError:
+        message_warn("Sigma Ciphers Cryptograms is not installed")
+        message_info("Trying to install Sigma Ciphers Cryptograms")
+        message_info("Wait for a while, and please re-run to generate token")
+        satisfy_dependencies()
+        
+    add_entry_to_config(config["cipher-token-file"], "token", token)
+    add_entry_to_config(config["cipher-token-file"], "private-key", hash_string(privateKey))
+    
 
 def init_on_start():
     message_info("Initializing")
@@ -53,6 +93,7 @@ def init_on_start():
 """
 INIT TOOLS METHODS
 """
+
 
 """
 FILE TOOLS METHOD
@@ -131,6 +172,7 @@ if __name__ == '__main__':
     print("THIS IS TOOLS MODULES TODO (ADD DOCUMENTATION)")
 
     ### TESTING
+    init_user_auth()
     #init_on_start() DONE
     #clear_dir(load_config("config.json")["cred-input-dir"]) DONE
     #init_first_run_sequence() DONE
