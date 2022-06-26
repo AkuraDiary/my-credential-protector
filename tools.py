@@ -28,8 +28,6 @@ def init_first_run_sequence():
     message_info("changed first run status to false")
     add_entry_to_config("config.json","isFirstRun", False)
 
-    message_info("Initializing User Authentication")
-
     message_info("succesfully runned first run sequence")
 
 def init_config(filenames):
@@ -38,6 +36,7 @@ def init_config(filenames):
     open(filenames["hashes-file"], "w").close()
 
 def init_user_auth():
+    message_info("Initializing User Authentication")
     user_cred_config = config["usr-cred-file"]
     username = input("Enter your username: ")
     password = input("Enter your master password: ")
@@ -51,23 +50,18 @@ def init_user_auth():
 
     
 def init_token():
-    
+    message_info("Initializing Token Generation")
     token = ""
     privateKey = ""
     
     message_info("generating user token")
     
-    try:
-        from sigma_ciphers_cryptograms import core as sigma_core
-        tokenLen = int(input("Enter your token length: "))
-        token = sigma_core.generate_token(tokenLen)
-        privateKey = sigma_core.generate_private_key(token)
-    except ModuleNotFoundError:
-        message_warn("Sigma Ciphers Cryptograms is not installed")
-        message_info("Trying to install Sigma Ciphers Cryptograms")
-        message_info("Wait for a while, and please re-run to generate token")
-        satisfy_dependencies()
-        
+    from sigma_ciphers_cryptograms import core
+    sigma = core.Sigma()
+    tokenLen = int(input("Enter your token length: "))
+    token = sigma.generate_token(tokenLen)
+    privateKey = sigma.generate_private_key(token)
+
     add_entry_to_config(config["cipher-token-file"], "token", token)
     add_entry_to_config(config["cipher-token-file"], "private-key", hash_string(privateKey))
     
@@ -172,7 +166,8 @@ if __name__ == '__main__':
     print("THIS IS TOOLS MODULES TODO (ADD DOCUMENTATION)")
 
     ### TESTING
-    init_user_auth()
+    init_token()
+    #init_user_auth()
     #init_on_start() DONE
     #clear_dir(load_config("config.json")["cred-input-dir"]) DONE
     #init_first_run_sequence() DONE
