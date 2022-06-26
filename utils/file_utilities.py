@@ -60,10 +60,12 @@ def list_supported_files_in_dir(dir_path):
 def list_files_in_dir(dir_path):
     #list all "only" files in a directory with no scanning
     _Lists = os.listdir(dir_path)
-    message_info("Scanning files in dir....", "\n")
+    message_info("Scanning files in dir....")
     return _Lists
 
 def makeCopyOfFile( oldFileName, newContent, path="", status = "encrypted", retrieve_fileName = False):
+    if path != "":
+        path = path + "\\"
     newFileName = path + status + "-"+ oldFileName
     with open(newFileName, 'w', encoding="utf=8") as f:
         f.write(newContent)

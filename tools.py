@@ -29,6 +29,23 @@ def init_config(filenames):
     open(filenames["cipher-token-file"], "w").close()
     open(filenames["usr-cred-file"], "w").close()
     open(filenames["hashes-file"], "w").close()
+
+def init_on_start():
+    message_info("Initializing")
+    message_info("Scanning for a new file in .\\credentials")
+    newFileList = scan_for_new_file(load_config("config.json")["cred-input-dir"])
+    if newFileList is not None:
+        print(newFileList)
+        message_info("TODO Encrypting new file")
+        #TODO ENCRYPT THE FILE
+        message_info("TODO Succesfully encrypted new file")
+        message_info("Moving new file to .\\secured-credentials")
+        for file in newFileList:
+            makeCopyOfFile(file, "new content" ,path = load_config("config.json")["cred-output-dir"])
+        message_info("succesfully moved new files to .\\secured-credentials")
+        clear_dir(load_config("config.json")["cred-input-dir"])
+    
+
 """
 INIT TOOLS METHODS
 """
@@ -36,6 +53,17 @@ INIT TOOLS METHODS
 """
 FILE TOOLS METHOD
 """
+def scan_for_new_file(dir_path):
+    file_list = list_supported_files_in_dir(dir_path)
+    if len(file_list) > 1:
+        message_info("Found new file in dir")
+        file_list.remove(".gitignore")
+        return file_list
+    else:
+ 
+        message_info("No new file found in dir")
+        return None
+
 def clear_dir(dir_path):
     message_info("clearing directory", dir_path)
     file_list = list_files_in_dir(dir_path)
@@ -46,7 +74,6 @@ def clear_dir(dir_path):
         if(".txt" in file):
             try:
                 os.remove(dir_path + "\\" + file)
-                #subprocess.Popen(['rm', file], cwd=dir_path, shell=True)
                 message_info("succesfully removed" , file)
             except Exception as e:
                 message_warn(e)
@@ -97,11 +124,10 @@ def update():
 DEPENDENCIES TOOLS
 """
 if __name__ == '__main__':
-    print("THIS IS TOOLS MODULES TODO ADD DOCUMENTATION")
-    clear_dir(load_config("config.json")["cred-input-dir"])
-    #init_first_run_sequence()
-    #satisfy_dependencies()
-    #repos = "https://github.com/AkuraDiary/sigma-ciphers-cryptograms.git"
+    print("THIS IS TOOLS MODULES TODO (ADD DOCUMENTATION)")
+
+    ### TESTING
+    init_on_start()
+    #clear_dir(load_config("config.json")["cred-input-dir"]) DONE
     
-    #clone(repos)
-    #pull("./sigma-ciphers-cryptograms")
+    #init_first_run_sequence() DONE
