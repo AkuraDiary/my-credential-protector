@@ -1,5 +1,6 @@
 # Import goes brrr
 from time import sleep
+from utils.auth import do_login
 from utils.log_neko import message_info
 from utils.file_utilities import *
 from utils.config_utilities import *
@@ -37,4 +38,8 @@ def init_adapter():
 
 if __name__ == '__main__':
     print("THIS IS ADAPTER MODULE TO CONECTING THE PROCESS BETWEEN CORE AND MAIN")
-    init_adapter()
+    #init_adapter()
+    init_user_auth()
+    username = str(input("Enter your username: "))
+    password = str(input("Enter your master password: "))
+    do_login(username, password)
