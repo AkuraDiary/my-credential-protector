@@ -1,0 +1,8 @@
+{
+    "isFirstRun" : true,
+    "cred-input-dir" : "credentials",
+    "cred-output-dir" : "secured-credentials",
+    "cipher-token-file" : "token.json",
+    "usr-cred-file" : "user-cred.json",
+    "hashes-file" : "hashes.json"
+}
