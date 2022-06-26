@@ -4,8 +4,8 @@ import os
 
 from tomlkit import string
 
-from config_utilities import *
-from file_utilities import *
+from utils.config_utilities import *
+from utils.file_utilities import *
 
 HASH_CONFIG_FILENAME = "hashes.json"
 tempDict = {}

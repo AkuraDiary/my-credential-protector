@@ -1,7 +1,7 @@
 import json
 import os
 from tomlkit import *
-from file_utilities import *
+from utils.file_utilities import *
 
 ENCODING = "utf-8"
 """

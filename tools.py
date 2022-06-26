@@ -3,7 +3,7 @@ from utils.config_utilities import *
 import subprocess
 
 
-repos_link = load_config("config.json")
+repos_link = load_config("repositories.json")
 
 def clone(repos):
     try:
@@ -21,7 +21,7 @@ def pull(path):
     
 def satisfy_dependencies():
     for repos in repos_link:
-        clone(repos)
+        clone(repos_link.get(repos))
     print("succesfully cloned all required dependencies repos")
 
 def update():
@@ -33,7 +33,7 @@ def update():
         print(e)
 
 if __name__ == '__main__':
-    update()
+    satisfy_dependencies()
     #repos = "https://github.com/AkuraDiary/sigma-ciphers-cryptograms.git"
     
     #clone(repos)
