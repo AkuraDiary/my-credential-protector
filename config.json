@@ -4,5 +4,7 @@
     "cred-output-dir" : "secured-credentials",
     "cipher-token-file" : ".\\user-config\\token.json",
     "usr-cred-file" : ".\\user-config\\user-cred.json",
-    "hashes-file" : ".\\user-config\\hashes.json"
+    "hashes-file" : ".\\user-config\\hashes.json",
+    "cipher_path" : ".\\sigma-ciphers-cryptograms",
+    "mcp_path" : ".\\"
 }
