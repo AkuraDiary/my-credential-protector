@@ -1,17 +1,13 @@
 import json
 import os
 from tomlkit import *
+from file_utilities import *
 
 ENCODING = "utf-8"
 """
 CONFIG IO UTILS METHODS
 """
-def is_empty(filename) -> bool:
-    """
-        Check if a file is empty
-    """
-    return os.path.getsize(filename) == 0
-    
+
 def load_config(filename) -> dict:
     """
         Load config into a dictionary

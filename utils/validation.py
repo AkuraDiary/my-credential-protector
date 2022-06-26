@@ -1,38 +1,15 @@
 
-# Hash a single string with hashlib.sha256
 from hashlib import sha256
 import os
 
 from tomlkit import string
 
 from config_utilities import *
+from file_utilities import *
 
 HASH_CONFIG_FILENAME = "hashes.json"
 tempDict = {}
 
-
-"""
-FILE IO METHODS
-"""
-def fileIsExist(filename):
-    return os.path.exists(filename)
-
-def readFileContent(filename):
-    #read the file content, no matter it's from a path or dir / path
-    if fileIsExist(filename):
-        try:
-            with open(filename, 'r', encoding="utf-8") as f:
-                return f.read()
-        except:
-            raise Exception("cannot read file contents")
-    else:
-        return None
-
-
-
-"""
-FILE IO METHODS
-"""
 
 """
 CORE METHODS IN THIS MODULE
