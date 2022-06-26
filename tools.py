@@ -3,6 +3,9 @@ from utils.config_utilities import *
 import subprocess
 
 
+"""
+DEPENDENCIES TOOLS
+"""
 repos_link = load_config("repositories.json")
 
 def clone(repos):
@@ -31,9 +34,12 @@ def update():
         print("succesfully updated")
     except Exception as e:
         print(e)
-
+"""
+DEPENDENCIES TOOLS
+"""
 if __name__ == '__main__':
-    satisfy_dependencies()
+    print("THIS IS TOOLS MODULES TODO ADD DOCUMENTATION")
+    #satisfy_dependencies()
     #repos = "https://github.com/AkuraDiary/sigma-ciphers-cryptograms.git"
     
     #clone(repos)
