@@ -1,3 +1,4 @@
+from fileinput import filename
 import json
 import os
 from tomlkit import *
@@ -25,12 +26,12 @@ def save_to_config(filename, config) -> None:
     with open(filename, "w", encoding=ENCODING) as config_file:
         json.dump(config, config_file)
 
-def add_entry_to_config(name: str, value: str):
-    config = load_config()
+def add_entry_to_config(filename, name: str, value: str):
+    config = load_config(filename)
 
     config[name] = value
 
-    save_to_config(config)
+    save_to_config(filename, config)
 
 """
 CONFIG IO UTILS METHODS

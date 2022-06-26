@@ -5,7 +5,7 @@ from tomlkit import string
 from utils.config_utilities import *
 from utils.file_utilities import *
 
-HASH_CONFIG_FILENAME = "hashes.json"
+HASH_CONFIG_FILENAME = load_config("config.json")["hashes-file"]
 tempDict = {}
 
 
@@ -44,10 +44,10 @@ CORE METHODS IN THIS MODULE
 CONVINIENT MENTHODS
 """
 def generate_newFileHash(_file):
-    add_entry_to_config(_file, hash_file(_file))
+    add_entry_to_config(HASH_CONFIG_FILENAME, _file, hash_file(_file))
 
 def generate_newStringHash(name, data):
-    add_entry_to_config(name, hash_string(data))
+    add_entry_to_config(HASH_CONFIG_FILENAME, name, hash_string(data))
 
 def saveTempData(name: str, value: str):
     tempDict[name] = value
@@ -65,7 +65,7 @@ if __name__ == '__main__':
 
     saveTempData("a_string", hashed_string)
 
-    add_entry_to_config("a_string", hashed_string)
+    add_entry_to_config(HASH_CONFIG_FILENAME,"a_string", hashed_string)
 
     print("VALIDATION")
 
@@ -87,7 +87,7 @@ if __name__ == '__main__':
     print(f"Data : {filename}")
     
     saveTempData(filename, hashed_file)
-    add_entry_to_config(filename, hashed_file)
+    add_entry_to_config(HASH_CONFIG_FILENAME,filename, hashed_file)
 
     print("VALIDATION")
     
