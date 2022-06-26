@@ -1,6 +1,4 @@
-
 from hashlib import sha256
-import os
 
 from tomlkit import string
 
@@ -14,7 +12,6 @@ tempDict = {}
 """
 CORE METHODS IN THIS MODULE
 """
-
 def hash_string(string):
     return sha256(string.encode()).hexdigest()
 
@@ -57,8 +54,6 @@ def saveTempData(name: str, value: str):
 """
 CONVINIENT MENTHODS
 """
-
-
 
 if __name__ == '__main__':
     print("file validation practice\n")
