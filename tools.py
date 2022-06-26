@@ -49,7 +49,7 @@ def init_user_auth():
     message_info("succesfully added user credentials")
 
     
-def init_token():
+def init_token(): 
     message_info("Initializing Token Generation")
     token = ""
     privateKey = ""
@@ -132,7 +132,7 @@ repos_link = load_config("repositories.json")
 
 def clone(repos):
     try:
-        subprocess.Popen(['git', 'clone' , repos], shell=True)
+        subprocess.Popen(['git', 'clone' , "--branch", "modular",  repos], shell=True)
         message_info("succesfully cloned" , repos)
     except Exception as e:
         message_warn(e)
