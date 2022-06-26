@@ -1,3 +1,4 @@
 {
-    "cipher" : "https://github.com/AkuraDiary/sigma-ciphers-cryptograms.git"
+    "cipher" : "https://github.com/AkuraDiary/sigma-ciphers-cryptograms.git",
+    "mcp" : "https://github.com/AkuraDiary/my-credential-protector.git"
 }
