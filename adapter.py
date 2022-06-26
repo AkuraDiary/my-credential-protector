@@ -11,19 +11,23 @@ global sigma
 def init_adapter():
     message_info("Initializing adapter")
     if isFirstRun():
-        t = threading.Thread(target = init_first_run_sequence())
-        t.start()
-        sleep(3)
+        init_first_run_sequence()
+        
+        sleep(3.5)
+
         init_user_auth()
-    t.join()
+        init_token()
+    
     init_on_start()
+    
     try:
         from sigma_ciphers_cryptograms import core as sigma_core
+        global sigma #sigma_core.Sigma()
+        sigma = sigma_core.Sigma()
     except ModuleNotFoundError:
         message_warn("Sigma Ciphers Cryptograms is not installed")
         message_warn("Please wait, until it is installed")
-    global sigma #sigma_core.Sigma()
-    sigma = sigma_core.Sigma()
+  
     message_info("Initialization completed")
 
     
