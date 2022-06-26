@@ -9,11 +9,11 @@ from utils.log_neko import *
 """
 INIT TOOLS METHODS
 """
+config = load_config("config.json")
 def init_first_run_sequence():
     message_info("Initializing first run sequence")
     
     message_info("Loading config file")
-    config = load_config("config.json")
     
     satisfy_dependencies()
 
@@ -33,18 +33,20 @@ def init_config(filenames):
 def init_on_start():
     message_info("Initializing")
     message_info("Scanning for a new file in .\\credentials")
-    newFileList = scan_for_new_file(load_config("config.json")["cred-input-dir"])
+    newFileList = scan_for_new_file(config["cred-input-dir"])
+
     if newFileList is not None:
-        print(newFileList)
+        message_info(newFileList)
+
         message_info("TODO Encrypting new file")
         #TODO ENCRYPT THE FILE
         message_info("TODO Succesfully encrypted new file")
+
         message_info("Moving new file to .\\secured-credentials")
         for file in newFileList:
-            makeCopyOfFile(file, "new content" ,path = load_config("config.json")["cred-output-dir"])
+            makeCopyOfFile(file, "new content" ,path = config["cred-output-dir"])
         message_info("succesfully moved new files to .\\secured-credentials")
         clear_dir(load_config("config.json")["cred-input-dir"])
-    
 
 """
 INIT TOOLS METHODS
@@ -127,7 +129,6 @@ if __name__ == '__main__':
     print("THIS IS TOOLS MODULES TODO (ADD DOCUMENTATION)")
 
     ### TESTING
-    init_on_start()
+    #init_on_start() DONE
     #clear_dir(load_config("config.json")["cred-input-dir"]) DONE
-    
     #init_first_run_sequence() DONE
