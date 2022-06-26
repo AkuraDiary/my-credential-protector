@@ -45,7 +45,7 @@ def fileSupported(filename):
 def list_supported_files_in_dir(dir_path):
     #list all "only" files in a directory
     _Lists = os.listdir(dir_path)
-    print("Scanning supported file in dir....", end="\r")
+    message_info("Scanning supported file in dir....")
     for file in _Lists: #file recognition / testing the it's the file or not (anjay file recognition)
         try:
             if fileSupported(dir_path + file):
@@ -53,14 +53,14 @@ def list_supported_files_in_dir(dir_path):
         except Exception as e:
             message_warn("Warning: {} {}".format( file, e))
             _Lists.remove(file)
-            message_warn("Removed from list : " , file, "\n")
+            message_warn("Removed from list : " , file)
     #print("list of supported files : ", _Lists)
     return _Lists
 
 def list_files_in_dir(dir_path):
     #list all "only" files in a directory with no scanning
     _Lists = os.listdir(dir_path)
-    message_info("Scanning supported file in dir....", end="\n")
+    message_info("Scanning files in dir....", "\n")
     return _Lists
 
 def makeCopyOfFile( oldFileName, newContent, path="", status = "encrypted", retrieve_fileName = False):
