@@ -88,10 +88,8 @@ def encrypt_file(filename):
 
     message_info("generating hash for file")
     
-
     file_hash = hash_file(encrypted_filename)
     if(file_hash is  None):
-#        message_warn("Failed to generate hash for file")
         raise Exception("Failed to generate hash for file")
 
     message_info("store file's hash")
@@ -99,15 +97,35 @@ def encrypt_file(filename):
 
     add_entry_to_config(hash_config, encrypted_filename, file_hash)
     message_info("succesfully encrypted file and stored file's hash")
-    
-    
-    
-    
- 
-    
 
-    
+def read_encrypted_file(filename):
+    sigma = loadSigma()
+    message_info("Reading file : " , filename)
 
+    data = ""
+    decrypted_data = ""
+    secured_path = config["cred-output-dir"]
+    file_path = secured_path + "\\" + filename
+
+    message_info("Retrieving file's hash")
+    hash_config = config["hashes-file"]
+    file_hash = load_config(hash_config)[file_path]
+
+    message_info("Validating file's hash")
+    if (validate_file_hash(file_path, file_hash)):
+        message_info("File's hash is valid")
+        data = readFileContent(file_path)
+        decrypted_data = sigma.start_decode(data, user_private_key)
+        
+        print()
+        message_info("Decrypted data : ")
+        print(decrypted_data)
+        message_info("Decrypted data")
+        print()
+
+    else:
+        message_warn("File's hash is invalid")
+    
 """
 METHOD THAT CONNECTS INTO SIGMA MODULE
 """
@@ -118,6 +136,7 @@ if __name__ == '__main__':
     init_adapter()
     loading_token()
     init_on_start()
+    read_encrypted_file("encrypted-dummy-file.txt")
     #init_user_auth()
     #username = str(input("Enter your username: "))
     #password = str(input("Enter your master password: "))

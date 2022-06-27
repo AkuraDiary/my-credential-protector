@@ -80,13 +80,11 @@ def init_on_start():
             
             #Encrypt new file
             for file in newFileList:
-               
-                encrypt_file(file)
-                # try:
-                #     encrypt_file(file)
-                # except Exception as e:
-                #     message_warn(e)
-                #     print()
+                try:
+                    encrypt_file(file)
+                except Exception as e:
+                    message_warn(e)
+                    print()
             
             message_info("Succesfully encrypted new file")
          
