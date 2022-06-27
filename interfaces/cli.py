@@ -26,7 +26,8 @@ def use_cli():
         print("2. Read Credentials")
         print("3. Change Token")
         print("4. Change User Account Credentials")
-        print("5. Exit")
+        print("5. Rescan for new files")
+        print("6. Exit")
         print()
         choice = input("Enter your choice: ")
         print()
@@ -45,6 +46,8 @@ def use_cli():
         elif choice == "4":
             adapter.change_user_acc_cred()
         elif choice == "5":
+            adapter.rescan_for_new_files()
+        elif choice == "6":
             message_info("Exiting MCP CLI Mode")
             exit()
         else:

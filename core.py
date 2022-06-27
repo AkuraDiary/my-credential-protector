@@ -52,6 +52,25 @@ def validate_private_key(token, privateKeyHash):
     else:
         message_warn("Private key is invalid")
         return False
+
+def scan_credentials_dir():
+    message_info("Scanning for a new file in .\\credentials")
+    newFileList = scan_for_new_file(config["cred-input-dir"])
+    if newFileList is not None:
+        message_info(newFileList)
+        message_info("Encrypting new files")
+        
+        #Encrypt new file
+        for file in newFileList:
+            try:
+                encrypt_file(file)
+            except Exception as e:
+                message_warn(e)
+                print()
+        
+        message_info("Succesfully encrypted new file")
+     
+        clear_dir(load_config("config.json")["cred-input-dir"])
 """
 INIT HELPER METHODS
 """
@@ -110,29 +129,14 @@ def init_token():
 
     add_entry_to_config(config["cipher-token-file"], "token", token)
     add_entry_to_config(config["cipher-token-file"], "private-key", hash_string(privateKey))
-    
+    message_info("succesfully generated and saved user token")
+
+
 def init_on_start():
     message_info("Initializing")
     
     if(cli_do_auth()):
-        message_info("Scanning for a new file in .\\credentials")
-        newFileList = scan_for_new_file(config["cred-input-dir"])
-        
-        if newFileList is not None:
-            message_info(newFileList)
-            message_info("Encrypting new files")
-            
-            #Encrypt new file
-            for file in newFileList:
-                try:
-                    encrypt_file(file)
-                except Exception as e:
-                    message_warn(e)
-                    print()
-            
-            message_info("Succesfully encrypted new file")
-         
-            clear_dir(load_config("config.json")["cred-input-dir"])
+        scan_credentials_dir()
     else:
         message_warn("User Authentication failed")
         message_warn("Exiting")

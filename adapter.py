@@ -22,7 +22,7 @@ def list_secured_credentials():
         print("[ FILE ] : " + file)
 
 def change_token():
-    message_warn("Warning, this is will change your token and you won't be able to use it to read your previeous encrypted file")
+    message_warn("Warning, this is will change your token and you might won't be able to use it to read your previeous encrypted file")
     choice = input("Are you sure you want to continue? (y/n): ")
     if choice == "y":
         init_token()
@@ -36,7 +36,9 @@ def change_user_acc_cred():
         init_user_auth()
     else:
         message_info("User account not changed")
-    
+
+def rescan_for_new_files():
+    scan_credentials_dir()
 """
 ADAPTER METHODS
 """
