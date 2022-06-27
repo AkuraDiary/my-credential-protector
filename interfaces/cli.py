@@ -1,3 +1,4 @@
+from time import sleep
 from utils.log_neko import *
 import sys
 import os
@@ -24,10 +25,11 @@ def use_cli():
         print("MCP CLI MODE")
         print("1. List your Credentials")
         print("2. Read Credentials")
-        print("3. Change Token")
-        print("4. Change User Account Credentials")
-        print("5. Rescan for new files")
-        print("6. Exit")
+        print("3. Rescan for new files")
+        print("4. Check For Updates")
+        print("5. Change Token")
+        print("6. Change User Account Credentials")
+        print("7. Exit")
         print()
         choice = input("Enter your choice: ")
         print()
@@ -42,12 +44,15 @@ def use_cli():
                 message_warn(e)
                 continue
         elif choice == "3":
-            adapter.change_token()
-        elif choice == "4":
-            adapter.change_user_acc_cred()
-        elif choice == "5":
             adapter.rescan_for_new_files()
+        elif choice == "4":
+            adapter.check_for_updates()
+            sleep(3)
+        elif choice == "5":
+            adapter.change_token()
         elif choice == "6":
+            adapter.change_user_acc_cred()
+        elif choice == "7":
             message_info("Exiting MCP CLI Mode")
             exit()
         else:

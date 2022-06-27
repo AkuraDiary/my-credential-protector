@@ -39,6 +39,10 @@ def change_user_acc_cred():
 
 def rescan_for_new_files():
     scan_credentials_dir()
+
+def check_for_updates():
+    message_info("Checking for updates")
+    update()
 """
 ADAPTER METHODS
 """
@@ -48,7 +52,11 @@ def main():
     mode = input("Enter mode (cli / ui): ")
     mode.strip()
     if mode == "cli":
-        use_cli()
+        try:
+            use_cli()
+        except KeyboardInterrupt:
+            message_info("Exiting MCP CLI Mode")
+            exit()
     elif mode == "ui":
         message_info("UI mode not implemented yet")
         #use_ui()
