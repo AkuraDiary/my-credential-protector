@@ -16,7 +16,6 @@ git clone https://github.com/AkuraDiary/my-credential-protector.git
 > step 2 (is under construction) 💀
 
 ## TODO LIST OF THIS PROJECT 🥞
-- Add CLI
 - Add UI
 - Add Documentation
 - Might add recovery mechanism
