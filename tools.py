@@ -8,6 +8,7 @@ from utils.validation import *
 from utils.config_utilities import *
 import subprocess
 from utils.log_neko import *
+from adapter import encrypt_file
 
 """
 INIT TOOLS METHODS
@@ -48,7 +49,6 @@ def init_user_auth():
     add_entry_to_config(user_cred_config, "username", hashedUsrname)
     add_entry_to_config(user_cred_config, "password", hashedPassword)
     message_info("succesfully added user credentials")
-
     
 def init_token(): 
     message_info("Initializing Token Generation")
@@ -76,13 +76,20 @@ def init_on_start():
         
         if newFileList is not None:
             message_info(newFileList)
-            message_info("TODO Encrypting new file")
-            #TODO ENCRYPT THE FILE
-            message_info("TODO Succesfully encrypted new file")
-            message_info("Moving new file to .\\secured-credentials")
+            message_info("Encrypting new file")
+            
+            #Encrypt new file
             for file in newFileList:
-                makeCopyOfFile(file, "new content" ,path = config["cred-output-dir"])
-            message_info("succesfully moved new files to .\\secured-credentials")
+               
+                encrypt_file(file)
+                # try:
+                #     encrypt_file(file)
+                # except Exception as e:
+                #     message_warn(e)
+                #     print()
+            
+            message_info("Succesfully encrypted new file")
+         
             clear_dir(load_config("config.json")["cred-input-dir"])
     else:
         message_warn("User Authentication failed")
