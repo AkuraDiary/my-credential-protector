@@ -34,7 +34,6 @@ def load_user_token():
     tokenFile = load_config(config["cipher-token-file"])
     
     user_token = tokenFile["token"]
-    message_info("Token loaded : " + user_token)
 
     message_info("Loading private key...")
     user_private_key_hash = tokenFile["private-key"]
