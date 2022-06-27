@@ -13,6 +13,9 @@ user_token = ""
 user_private_key = ""
 config = load_config("config.json")
 
+"""
+INIT HELPER METHODS
+"""
 def loadSigma():
     from sigma_ciphers_cryptograms import core as sigma_core
         
@@ -20,7 +23,6 @@ def loadSigma():
     message_info("Succesfully loaded sigma")
     return _sigma
         
-
 
 def loading_token():
     
@@ -44,16 +46,101 @@ def loading_token():
 def validate_private_key(token, privateKeyHash):
     sigma=loadSigma()
     privateKey = sigma.generate_private_key(token)
-    if hash_string(privateKey) == privateKeyHash:
+    if validate_string_hash(privateKey, privateKeyHash):
         message_info("Private key is valid")
         return privateKey
     else:
         message_warn("Private key is invalid")
         return False
+"""
+INIT HELPER METHODS
+"""
+
+"""
+INIT METHODS
+"""
+def isFirstRun():
+    return config["isFirstRun"]
+
+def init_first_run_sequence():
+    message_info("Initializing first run sequence")
     
-def init_adapter():
+    message_info("Loading config file")
     
-    message_info("Initializing adapter")
+    satisfy_dependencies()
+
+    message_info("Initializing empty user-config files")
+    init_config(filenames = config)
+    
+    message_info("changed first run status to false")
+    add_entry_to_config("config.json","isFirstRun", False)
+
+    message_info("succesfully runned first run sequence")
+
+def init_config(filenames):
+    open(filenames["cipher-token-file"], "w").close()
+    open(filenames["usr-cred-file"], "w").close()
+    open(filenames["hashes-file"], "w").close()
+
+def init_user_auth():
+    message_info("Initializing User Authentication")
+    user_cred_config = config["usr-cred-file"]
+    username = input("Enter your username: ")
+    password = input("Enter your master password: ")
+
+    hashedUsrname = hash_string(username)
+    hashedPassword = hash_string(password)
+
+    add_entry_to_config(user_cred_config, "username", hashedUsrname)
+    add_entry_to_config(user_cred_config, "password", hashedPassword)
+    message_info("succesfully added user credentials")
+    
+def init_token(): 
+    message_info("Initializing Token Generation")
+    token = ""
+    privateKey = ""
+    
+    message_info("generating user token")
+    
+    from sigma_ciphers_cryptograms import core
+    sigma = core.Sigma()
+    tokenLen = int(input("Enter your token length: "))
+    token = sigma.generate_token(tokenLen)
+    privateKey = sigma.generate_private_key(token)
+
+    add_entry_to_config(config["cipher-token-file"], "token", token)
+    add_entry_to_config(config["cipher-token-file"], "private-key", hash_string(privateKey))
+    
+def init_on_start():
+    message_info("Initializing")
+    
+    if(do_auth()):
+        message_info("Scanning for a new file in .\\credentials")
+        newFileList = scan_for_new_file(config["cred-input-dir"])
+        
+        if newFileList is not None:
+            message_info(newFileList)
+            message_info("Encrypting new file")
+            
+            #Encrypt new file
+            for file in newFileList:
+                try:
+                    encrypt_file(file)
+                except Exception as e:
+                    message_warn(e)
+                    print()
+            
+            message_info("Succesfully encrypted new file")
+         
+            clear_dir(load_config("config.json")["cred-input-dir"])
+    else:
+        message_warn("User Authentication failed")
+        message_warn("Exiting")
+        exit()
+
+def init_core_module():
+    
+    message_info("Initializing core")
     if isFirstRun():
         init_first_run_sequence()
         
@@ -64,7 +151,10 @@ def init_adapter():
 
     
     message_info("Initialization completed")
-    
+
+"""
+INIT METHODS
+""" 
 
 """
 METHOD THAT CONNECTS INTO SIGMA MODULE
@@ -132,7 +222,7 @@ METHOD THAT CONNECTS INTO SIGMA MODULE
 
 if __name__ == '__main__':
     print("THIS IS CORE MODULE")
-    init_adapter()
+    init_core_module()
     loading_token()
     init_on_start()
     #init_user_auth()
