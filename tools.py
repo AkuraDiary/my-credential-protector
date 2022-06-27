@@ -1,5 +1,6 @@
 from asyncio import subprocess
 import asyncio
+from asyncore import loop
 from multiprocessing.connection import wait
 from utils.validation import *
 from utils.config_utilities import *
@@ -51,7 +52,7 @@ DEPENDENCIES TOOLS
 """
 repos_link = load_config("repositories.json")
 
-def clone(repos):
+async def clone(repos):
     try:
         subprocess.Popen(['git', 'clone' , "--branch", "modular",  repos], shell=True)
         message_info("succesfully cloned" , repos)
@@ -59,23 +60,26 @@ def clone(repos):
         message_warn(e)
         print()#space
 
-def pull(path):
+async def pull(path):
     try:
         message_info("Updating", path)
         subprocess.Popen(['git', 'pull'], cwd=path, shell=True)
     except Exception as e:
         print(e)
     
-async def satisfy_dependencies():
+def satisfy_dependencies():
     message_info("Cloning all required dependencies repos")
-    for repos in repos_link:
-        await clone(repos_link.get(repos))
+    
+    loop = asyncio.get_event_loop()
+    loop.run_until_complete(clone(repos_link["cipher"]))
+    
     message_info("succesfully cloned all required dependencies repos")
 
-async def update():
+def update():
+    loop = asyncio.get_event_loop()
     try:
-        await pull(load_config("config.json")["cipher_path"])
-        await pull(load_config("config.json")["mcp_path"])
+        loop.run_until_complete(pull(load_config("config.json")["cipher_path"]))
+        loop.run_until_complete(pull(load_config("config.json")["mcp_path"]))
     except Exception as e:
         message_warn(e)
         print()#space

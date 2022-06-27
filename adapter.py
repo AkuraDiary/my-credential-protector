@@ -52,7 +52,7 @@ def rescan_for_new_files():
 
 def check_for_updates():
     message_info("Checking for updates")
-    asyncio.run(update())
+    update()
 """
 ADAPTER METHODS
 """

@@ -53,7 +53,7 @@ def use_cli():
             adapter.rescan_for_new_files()
         elif choice == "4":
             adapter.check_for_updates()
-            #sleep(3)
+            sleep(3)
         elif choice == "5":
             adapter.change_token()
         elif choice == "6":

@@ -1,8 +1,5 @@
 # Import goes brrr
 from time import sleep
-
-from rsa import PrivateKey
-import sigma_ciphers_cryptograms
 from utils.auth import *
 from utils.log_neko import message_info
 from utils.file_utilities import *
@@ -155,7 +152,7 @@ def init_core_module():
     if isFirstRun():
         init_first_run_sequence()
         
-        #sleep(3.5)
+        sleep(4)
 
         init_user_auth()
         init_token()
