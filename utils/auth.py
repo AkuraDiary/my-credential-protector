@@ -4,6 +4,7 @@ AUTH METHODS
 from utils.config_utilities import *
 from utils.log_neko import *
 from utils.validation import *
+from getpass import getpass
 
 config = load_config("config.json")
 def do_login(username, password):
@@ -25,7 +26,7 @@ def do_login(username, password):
 def do_auth():
     message_info("Authenticating")
     username = input("Enter your username: ")
-    password = input("Enter your master password: ")
+    password = getpass("Enter your master password: ")
     try:
         return do_login(username, password)
     except Exception as e:
