@@ -31,8 +31,6 @@ def init_adapter():
   
     message_info("Initialization completed")
 
-    
-        
 
         
 

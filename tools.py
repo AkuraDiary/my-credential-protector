@@ -3,6 +3,7 @@ from multiprocessing.connection import wait
 
 from gevent import config
 from rsa import PrivateKey
+from utils.auth import do_auth, do_login
 from utils.validation import *
 from utils.config_utilities import *
 import subprocess
@@ -68,21 +69,25 @@ def init_token():
 
 def init_on_start():
     message_info("Initializing")
-    message_info("Scanning for a new file in .\\credentials")
-    newFileList = scan_for_new_file(config["cred-input-dir"])
-
-    if newFileList is not None:
-        message_info(newFileList)
-
-        message_info("TODO Encrypting new file")
-        #TODO ENCRYPT THE FILE
-        message_info("TODO Succesfully encrypted new file")
-
-        message_info("Moving new file to .\\secured-credentials")
-        for file in newFileList:
-            makeCopyOfFile(file, "new content" ,path = config["cred-output-dir"])
-        message_info("succesfully moved new files to .\\secured-credentials")
-        clear_dir(load_config("config.json")["cred-input-dir"])
+    
+    if(do_auth()):
+        message_info("Scanning for a new file in .\\credentials")
+        newFileList = scan_for_new_file(config["cred-input-dir"])
+        
+        if newFileList is not None:
+            message_info(newFileList)
+            message_info("TODO Encrypting new file")
+            #TODO ENCRYPT THE FILE
+            message_info("TODO Succesfully encrypted new file")
+            message_info("Moving new file to .\\secured-credentials")
+            for file in newFileList:
+                makeCopyOfFile(file, "new content" ,path = config["cred-output-dir"])
+            message_info("succesfully moved new files to .\\secured-credentials")
+            clear_dir(load_config("config.json")["cred-input-dir"])
+    else:
+        message_warn("User Authentication failed")
+        message_warn("Exiting")
+        exit()
 
 """
 INIT TOOLS METHODS
@@ -166,7 +171,7 @@ if __name__ == '__main__':
     print("THIS IS TOOLS MODULES TODO (ADD DOCUMENTATION)")
 
     ### TESTING
-    init_token()
+    #init_token()
     #init_user_auth()
     #init_on_start() DONE
     #clear_dir(load_config("config.json")["cred-input-dir"]) DONE

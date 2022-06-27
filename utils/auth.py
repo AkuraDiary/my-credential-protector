@@ -12,16 +12,26 @@ def do_login(username, password):
     
     hashedPassword = hash_string(password)
     hashedUsername = hash_string(username)
-    if load_config(user_cred_config)["username"] == hashedUsername:
-        message_info("Username is correct")
+    if load_config(user_cred_config)["username"] != hashedUsername:
+        raise Exception("Invalid Username")
+    else:
         if load_config(user_cred_config)["password"] == hashedPassword:
             message_info("Login success")
             return True
-        return False
-    else:
-        message_warn("Login failed")
-        return False
+        else:
+            message_warn("Login failed")
+            raise Exception("Invalid password")
 
+def do_auth():
+    message_info("Authenticating")
+    username = input("Enter your username: ")
+    password = input("Enter your master password: ")
+    try:
+        return do_login(username, password)
+    except Exception as e:
+        message_warn(e)
+        return False
+        
 """
 AUTH METHODS
 """
