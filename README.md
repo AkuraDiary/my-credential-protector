@@ -20,6 +20,8 @@ py main.py
 
 > place your credentials files in ```.\credentials``` directory in ```.txt``` format, and the program will automatically detected it
 
+> ### ENJOY 🍻
+
 ## TODO LIST OF THIS PROJECT 🥞
 - Add UI
 - Add Documentation
