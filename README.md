@@ -13,7 +13,12 @@ I used to save my credentials in ```.txt``` file and scatter it all around my fo
 git clone https://github.com/AkuraDiary/my-credential-protector.git
 ```
 
-> step 2 (is under construction) 💀
+> step 2 Navigate and open the terminal in directory you cloned this project to then type
+```
+py main.py
+```
+
+> place your credentials files in ```.\credentials``` directory in ```.txt``` format, and the program will automatically detected it
 
 ## TODO LIST OF THIS PROJECT 🥞
 - Add UI
