@@ -1,5 +1,7 @@
 # Import goes brrr
 from time import sleep
+
+from rsa import PrivateKey
 import sigma_ciphers_cryptograms
 from utils.auth import *
 from utils.log_neko import message_info
@@ -11,6 +13,7 @@ import threading
 
 user_token = ""
 user_private_key = ""
+
 config = load_config("config.json")
 
 """
@@ -22,15 +25,19 @@ def loadSigma():
     _sigma = sigma_core.Sigma()
     message_info("Succesfully loaded sigma")
     return _sigma
-        
 
-def loading_token():
-    
+def load_user_token():
+    # make sure it's empty
+    user_token = ""
+    user_private_key = ""
+    # make sure it's empty
+
     message_info("Loading token...")
 
     tokenFile = load_config(config["cipher-token-file"])
     
     user_token = tokenFile["token"]
+    message_info("Token loaded : " + user_token)
 
     message_info("Loading private key...")
     user_private_key_hash = tokenFile["private-key"]
@@ -38,6 +45,7 @@ def loading_token():
     user_private_key = validate_private_key(user_token, user_private_key_hash)
     if user_private_key:
          message_info("Succesfully loaded token and private key")
+         return user_token
     else:
         message_warn("Failed to load token and private key")
         message_warn("Please restart the application")
@@ -131,7 +139,6 @@ def init_token():
     add_entry_to_config(config["cipher-token-file"], "private-key", hash_string(privateKey))
     message_info("succesfully generated and saved user token")
 
-
 def init_on_start():
     message_info("Initializing")
     
@@ -164,9 +171,10 @@ INIT METHODS
 METHOD THAT CONNECTS INTO SIGMA MODULE
 """
 def encrypt_file(filename):
+    user_token = load_user_token()
     sigma = loadSigma()
     message_info("Encrypting file : " , filename)
-    print(user_token)
+    #print(user_token)
     data = ""
     encrypted_data = ""
     secured_path = config["cred-output-dir"]
@@ -192,8 +200,13 @@ def encrypt_file(filename):
     message_info("succesfully encrypted file and stored file's hash")
 
 def read_encrypted_file(filename):
+    
+    
     sigma = loadSigma()
     message_info("Reading file : " , filename)
+    
+    user_token = load_user_token()
+    user_private_key = sigma.generate_private_key(user_token)
 
     data = ""
     decrypted_data = ""
@@ -224,8 +237,9 @@ def start():
     Wrapper method for starting the program
     """
     init_core_module()
-    loading_token()
+    load_user_token()
     init_on_start()
+
 
 if __name__ == '__main__':
     print("THIS IS CORE MODULE")

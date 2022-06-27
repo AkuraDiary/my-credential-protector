@@ -1,4 +1,5 @@
 from time import sleep
+
 from utils.log_neko import *
 import sys
 import os
@@ -18,11 +19,17 @@ sys.path.append(parent)
 # now we can import the module in the parent
 # directory.
 import adapter
+from utils.config_utilities import *
+
+# config_file = load_config("config.json")
+# tokenFile = load_config(config_file["cipher-token-file"])
+# user_token = tokenFile["token"]
 
 def use_cli():
     while True:
         print()
         print("MCP CLI MODE")
+        print(compose_info("CURRENT TOKEN : " , adapter.user_token))
         print("1. List your Credentials")
         print("2. Read Credentials")
         print("3. Rescan for new files")

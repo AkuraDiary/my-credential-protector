@@ -1,3 +1,4 @@
+from importlib import reload
 from core import *
 from interfaces.cli import *
 
@@ -24,14 +25,23 @@ def list_secured_credentials():
 def change_token():
     message_warn("Warning, this is will change your token and you might won't be able to use it to read your previeous encrypted file")
     choice = input("Are you sure you want to continue? (y/n): ")
+    print()
     if choice == "y":
+        
         init_token()
+        load_user_token()
+        message_info("reloading token")
+        message_info("You Have to restart the programs in order to apply the changes")
+        message_info("restarting program") #TODO
+
+        
     else:
         message_info("Token not changed")
 
 def change_user_acc_cred():
     message_warn("Warning, this is will change your user account and master password")
     choice = input("Are you sure you want to continue? (y/n): ")
+    print()
     if choice == "y":
         init_user_auth()
     else:

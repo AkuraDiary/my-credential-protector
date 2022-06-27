@@ -1,3 +1,7 @@
 from adapter import *
 if __name__ == "__main__":
-    main()
+    try:
+        main()
+    except KeyboardInterrupt:
+        message_info("Exiting")
+        exit()
