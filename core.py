@@ -206,11 +206,7 @@ def read_encrypted_file(filename):
         data = readFileContent(file_path)
         decrypted_data = sigma.start_decode(data, user_private_key)
         
-        print()
-        message_info("Decrypted data : ")
-        print(decrypted_data)
-        message_info("Decrypted data")
-        print()
+        return decrypted_data
 
     else:
         message_warn("File's hash is invalid")

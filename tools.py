@@ -1,14 +1,9 @@
 from asyncio import subprocess
 from multiprocessing.connection import wait
-
-from gevent import config
-from rsa import PrivateKey
-from utils.auth import cli_do_auth, do_login
 from utils.validation import *
 from utils.config_utilities import *
 import subprocess
 from utils.log_neko import *
-from core import encrypt_file
 
 
 config = load_config("config.json")
