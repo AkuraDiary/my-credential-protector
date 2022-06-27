@@ -9,17 +9,17 @@ def read_secured_file(filename):
     filename = "encrypted-" + filename
     print()
     decrypted_data = read_encrypted_file(filename)
-    message_info("Decrypted data : ")
-    print(decrypted_data)
     message_info("Decrypted data")
+    print(decrypted_data)
     print()
+    message_info("Decrypted data")
 
 def list_secured_credentials():
     _lists = list_files_in_dir(config["cred-output-dir"])
-    print()
-    print("List of secured credentials : ")
-    print(_lists)
-    print()
+    _lists.remove(".gitignore")
+    print("List of secured credentials : \n")
+    for file in _lists:
+        print("[ FILE ] : " + file)
 
 """
 ADAPTER METHODS

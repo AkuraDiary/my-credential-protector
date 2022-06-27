@@ -20,17 +20,16 @@ import adapter
 
 def use_cli():
     while True:
-        print("Welcome to the CLI")
+        print()
+        print("MCP CLI MODE")
         print("1. List your Credentials")
         print("2. Read Credentials")
-        print("4. Exit")
-        print("\n")
+        print("3. Exit")
+        print()
         choice = input("Enter your choice: ")
+        print()
         if choice == "1":
-            user_cred_list = adapter.list_secured_credentials()
-            print()
-            print(user_cred_list)
-            print()
+            adapter.list_secured_credentials()
 
         elif choice == "2":
             filename = input("Enter the filename : encrypted-")
@@ -39,10 +38,11 @@ def use_cli():
             except Exception as e:
                 message_warn(e)
                 continue
-        elif choice == "4":
+        elif choice == "3":
+            message_info("Exiting MCP CLI Mode")
             exit()
         else:
-            print("Invalid choice")
+            message_info("Invalid choice")
             continue
 
 if __name__ == '__main__':

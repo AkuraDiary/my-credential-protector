@@ -9,7 +9,7 @@ def message_info(info: str, second_arg = ""):
         Print informaton level message
     """
 
-    message = Fore.GREEN + f"[INFO] {info} {second_arg}" + Fore.RESET
+    message = Fore.GREEN + f"[INFO] {info} {second_arg}\n" + Fore.RESET
     print(message)
 
 def message_warn(warning: str, second_arg = ""):
@@ -17,7 +17,7 @@ def message_warn(warning: str, second_arg = ""):
         Print warning level message
     """
 
-    message = Fore.YELLOW + f"[WARNING] {warning} {second_arg}" + Fore.RESET
+    message = Fore.YELLOW + f"[WARNING] {warning} {second_arg}\n" + Fore.RESET
     print(message)
 
 def compose_info(message, second_arg = ""):
