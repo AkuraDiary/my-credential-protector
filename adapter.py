@@ -21,6 +21,22 @@ def list_secured_credentials():
     for file in _lists:
         print("[ FILE ] : " + file)
 
+def change_token():
+    message_warn("Warning, this is will change your token and you won't be able to use it to read your previeous encrypted file")
+    choice = input("Are you sure you want to continue? (y/n): ")
+    if choice == "y":
+        init_token()
+    else:
+        message_info("Token not changed")
+
+def change_user_acc_cred():
+    message_warn("Warning, this is will change your user account and master password")
+    choice = input("Are you sure you want to continue? (y/n): ")
+    if choice == "y":
+        init_user_auth()
+    else:
+        message_info("User account not changed")
+    
 """
 ADAPTER METHODS
 """

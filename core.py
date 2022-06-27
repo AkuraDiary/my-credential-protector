@@ -120,7 +120,7 @@ def init_on_start():
         
         if newFileList is not None:
             message_info(newFileList)
-            message_info("Encrypting new file")
+            message_info("Encrypting new files")
             
             #Encrypt new file
             for file in newFileList:
@@ -171,15 +171,15 @@ def encrypt_file(filename):
     data = readFileContent(file_path)
     encrypted_data = sigma.start_encode(data, user_token)
     
-    message_info("Moving new file to .\\secured-credentials")
+    message_info(f"Moving {filename} file to .\\secured-credentials")
     encrypted_filename = makeCopyOfFile(filename, encrypted_data, path=secured_path, retrieve_fileName=True)
-    message_info("succesfully moved new files to .\\secured-credentials") 
+    message_info(f"succesfully moved {filename} files to .\\secured-credentials") 
 
-    message_info("generating hash for file")
+    message_info(f"generating hash for {filename}")
     
     file_hash = hash_file(encrypted_filename)
     if(file_hash is  None):
-        raise Exception("Failed to generate hash for file")
+        raise Exception(f"Failed to generate hash for {filename}")
 
     message_info("store file's hash")
     hash_config = config["hashes-file"]
