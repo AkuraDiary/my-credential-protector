@@ -23,7 +23,7 @@ def do_login(username, password):
             message_warn("Login failed")
             raise Exception("Invalid password")
 
-def do_auth():
+def cli_do_auth():
     message_info("Authenticating")
     username = input("Enter your username: ")
     password = getpass("Enter your master password: ")

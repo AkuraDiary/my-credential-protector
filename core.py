@@ -114,7 +114,7 @@ def init_token():
 def init_on_start():
     message_info("Initializing")
     
-    if(do_auth()):
+    if(cli_do_auth()):
         message_info("Scanning for a new file in .\\credentials")
         newFileList = scan_for_new_file(config["cred-input-dir"])
         
@@ -218,13 +218,18 @@ def read_encrypted_file(filename):
 """
 METHOD THAT CONNECTS INTO SIGMA MODULE
 """
-        
 
-if __name__ == '__main__':
-    print("THIS IS CORE MODULE")
+def start():
+    """
+    Wrapper method for starting the program
+    """
     init_core_module()
     loading_token()
     init_on_start()
+
+if __name__ == '__main__':
+    print("THIS IS CORE MODULE")
+    start()
     #init_user_auth()
     #username = str(input("Enter your username: "))
     #password = str(input("Enter your master password: "))
