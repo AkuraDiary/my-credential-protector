@@ -60,8 +60,8 @@ def clone(repos):
 
 def pull(path):
     try:
+        message_info("Updating", path)
         subprocess.Popen(['git', 'pull'], cwd=path, shell=True)
-        message_info("succesfully updated" , path)
     except Exception as e:
         print(e)
     
@@ -75,7 +75,6 @@ def update():
     try:
         pull(load_config("config.json")["cipher_path"])
         pull(load_config("config.json")["mcp_path"])
-        message_info("succesfully doing update")
     except Exception as e:
         message_warn(e)
         print()#space
