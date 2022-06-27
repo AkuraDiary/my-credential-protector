@@ -15,13 +15,12 @@ config = load_config("config.json")
 
 def loadSigma():
     from sigma_ciphers_cryptograms import core as sigma_core
-        #sigma_core.Sigma()
+        
     _sigma = sigma_core.Sigma()
     message_info("Succesfully loaded sigma")
     return _sigma
         
-    
-#sigma = threading.Thread(target=loadSigma)
+
 
 def loading_token():
     
@@ -136,7 +135,6 @@ if __name__ == '__main__':
     init_adapter()
     loading_token()
     init_on_start()
-    read_encrypted_file("encrypted-dummy-file.txt")
     #init_user_auth()
     #username = str(input("Enter your username: "))
     #password = str(input("Enter your master password: "))

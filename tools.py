@@ -8,7 +8,7 @@ from utils.validation import *
 from utils.config_utilities import *
 import subprocess
 from utils.log_neko import *
-from adapter import encrypt_file
+from core import encrypt_file
 
 """
 INIT TOOLS METHODS
