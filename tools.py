@@ -1,4 +1,5 @@
 from asyncio import subprocess
+import asyncio
 from multiprocessing.connection import wait
 from utils.validation import *
 from utils.config_utilities import *
@@ -65,16 +66,16 @@ def pull(path):
     except Exception as e:
         print(e)
     
-def satisfy_dependencies():
+async def satisfy_dependencies():
     message_info("Cloning all required dependencies repos")
     for repos in repos_link:
-        clone(repos_link.get(repos))
+        await clone(repos_link.get(repos))
     message_info("succesfully cloned all required dependencies repos")
 
-def update():
+async def update():
     try:
-        pull(load_config("config.json")["cipher_path"])
-        pull(load_config("config.json")["mcp_path"])
+        await pull(load_config("config.json")["cipher_path"])
+        await pull(load_config("config.json")["mcp_path"])
     except Exception as e:
         message_warn(e)
         print()#space

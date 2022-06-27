@@ -1,4 +1,4 @@
-from importlib import reload
+import asyncio
 from core import *
 from interfaces.cli import *
 
@@ -52,7 +52,7 @@ def rescan_for_new_files():
 
 def check_for_updates():
     message_info("Checking for updates")
-    update()
+    asyncio.run(update())
 """
 ADAPTER METHODS
 """

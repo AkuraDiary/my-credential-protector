@@ -5,6 +5,6 @@
     "cipher-token-file" : ".\\user-config\\token.json",
     "usr-cred-file" : ".\\user-config\\user-cred.json",
     "hashes-file" : ".\\user-config\\hashes.json",
-    "cipher_path" : ".\\sigma-ciphers-cryptograms",
+    "cipher_path" : ".\\sigma_ciphers_cryptograms",
     "mcp_path" : ".\\"
 }

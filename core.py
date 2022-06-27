@@ -143,7 +143,7 @@ def init_on_start():
     message_info("Initializing")
     
     if(cli_do_auth()):
-        scan_credentials_dir()
+        threading.Thread(scan_credentials_dir()).start()
     else:
         message_warn("User Authentication failed")
         message_warn("Exiting")
@@ -155,7 +155,7 @@ def init_core_module():
     if isFirstRun():
         init_first_run_sequence()
         
-        sleep(3.5)
+        #sleep(3.5)
 
         init_user_auth()
         init_token()
