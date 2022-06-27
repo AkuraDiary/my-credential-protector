@@ -47,4 +47,4 @@ All of the process here is happened locally, you only need internet connection w
 ```
 
 ## Contributing 🍪
-### if you'd like to contribute into this project, i would be so happy, check how to contribute [here]() //TODO
+### if you'd like to contribute into this project, i would be so happy, check how to contribute [here](https://github.com/AkuraDiary/my-credential-protector/blob/main/CONTIBUTING.md)
