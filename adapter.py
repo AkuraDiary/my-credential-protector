@@ -22,11 +22,12 @@ def list_secured_credentials(retrieve_list=False):
     _lists = list_files_in_dir(config["cred-output-dir"])
     _lists.remove(".gitignore")
     if retrieve_list:
+        return _lists
+    else:
         print("List of secured credentials : \n")
         for file in _lists:
             print("[ FILE ] : " + file)
-    else:
-        return _lists
+        
 
 def change_token():
     message_warn("Warning, this is will change your token and you might won't be able to use it to read your previeous encrypted file")
@@ -36,9 +37,8 @@ def change_token():
         
         init_token()
         load_user_token()
-        #message_info("reloading token")
         message_info("You Have to restart the programs in order to apply the changes")
-        #message_info("restarting program") #TODO
+        
     else:
         message_info("Token not changed")
 
@@ -72,6 +72,7 @@ def main():
             message_info("Exiting MCP CLI Mode")
             exit()
     elif mode == "ui":
+        message_info("Initializing MCP UI Mode")
         use_ui()
     else:
         message_warn("Invalid mode")

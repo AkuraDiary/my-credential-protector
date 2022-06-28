@@ -1,6 +1,7 @@
 import sys
 
 from matplotlib.pyplot import text
+from pip import main
 
 from pygame import init
 from utils.log_neko import *
@@ -25,7 +26,7 @@ from utils.config_utilities import *
 import os # last import (all other imports above this one)
 os.environ['PYGAME_HIDE_SUPPORT_PROMPT'] = 'hide' #hide pygame message
 
-window = ""
+window : Tk
 
 def fill_textbox(component : Text, data):
 
@@ -39,15 +40,40 @@ def clear_textbox(component : Text):
     component.delete("1.0", END)
     component.config(state=DISABLED)
 
+"""
+HELPERS METHODS
+"""
+def show_credentials(target_component : Text):
+    data = adapter.list_secured_credentials(retrieve_list=True)
+    for _data in data:
+        _data = f"[FILE] {_data} \n"
+        fill_textbox(target_component, _data)
+"""
+HELPERS METHODS
+"""
+
 def init_ui():
     _window = Tk()
     
     """
-    COMPONNENTS
+    COMPONNENTS & BINDING
     """
-    main_display_text_box = Text(_window, width=50, height=10, )
+    main_display_text_box = Text(_window)
+
+    ## NICE ##
+    main_display_text_box.config(width=69)
+    main_display_text_box.config(border=4)
+    main_display_text_box.config(height=20)
+    ## NICE ##
+    main_display_text_box.config(padx=2, pady=2)
     main_display_text_box.config(state=DISABLED)
-    
+
+    Label(
+        _window, 
+        text="My Credential Protector", 
+        font=("Poppins, 24")
+        ).pack()
+
     fill_btn=Button(
         _window, 
         text="Fill Button", 
@@ -61,15 +87,20 @@ def init_ui():
         fg='white', 
         command=lambda: clear_textbox(main_display_text_box)
         )
+    
+    list_cred_btn=Button(
+        _window, 
+        text="List Your Credentials", 
+        fg='white', 
+        command=lambda: show_credentials(target_component=main_display_text_box)
+        )
     """
-    COMPONNENTS
+    COMPONNENTS & BINDING
     """
 
     """
     BINDING
     """
-    #clear_btn.bind("<Button-1>", clear_textbox(text_box))
-    #fill_btn.bind("<Button-1>", fill_textbox(text_box, "Hello World"))
     """
     BINDING
     """
@@ -80,6 +111,7 @@ def init_ui():
     main_display_text_box.pack()
     fill_btn.pack()
     clear_btn.pack()
+    list_cred_btn.pack()
     """
     PACK
     """
@@ -87,9 +119,9 @@ def init_ui():
     _window.attributes("-topmost", True)
     _window.title("MCP")
     _window.geometry("500x500")
+    _window.configure(pady=10, padx=10)
     _window.mainloop()
     ## WINDOW
-    
 
     return _window
 
