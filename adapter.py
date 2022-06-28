@@ -6,21 +6,27 @@ config = load_config("config.json")
 """
 ADAPTER METHODS
 """
-def read_secured_file(filename):
+def read_secured_file(filename, retrieve_data=False):
     filename = "encrypted-" + filename
     print()
     decrypted_data = read_encrypted_file(filename)
-    message_info("Decrypted data")
-    print(decrypted_data)
-    print()
-    message_info("Decrypted data")
+    if retrieve_data:
+        return decrypted_data
+    else:
+        message_info("Decrypted data")
+        print(decrypted_data)
+        print()
+        message_info("Decrypted data")
 
-def list_secured_credentials():
+def list_secured_credentials(retrieve_list=False):
     _lists = list_files_in_dir(config["cred-output-dir"])
     _lists.remove(".gitignore")
-    print("List of secured credentials : \n")
-    for file in _lists:
-        print("[ FILE ] : " + file)
+    if retrieve_list:
+        print("List of secured credentials : \n")
+        for file in _lists:
+            print("[ FILE ] : " + file)
+    else:
+        return _lists
 
 def change_token():
     message_warn("Warning, this is will change your token and you might won't be able to use it to read your previeous encrypted file")
@@ -30,11 +36,9 @@ def change_token():
         
         init_token()
         load_user_token()
-        message_info("reloading token")
+        #message_info("reloading token")
         message_info("You Have to restart the programs in order to apply the changes")
-        message_info("restarting program") #TODO
-
-        
+        #message_info("restarting program") #TODO
     else:
         message_info("Token not changed")
 
@@ -68,8 +72,7 @@ def main():
             message_info("Exiting MCP CLI Mode")
             exit()
     elif mode == "ui":
-        message_info("UI mode not implemented yet")
-        #use_ui()
+        use_ui()
     else:
         message_warn("Invalid mode")
         message_info("Using Default CLI")
