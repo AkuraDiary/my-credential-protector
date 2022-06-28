@@ -1,6 +1,6 @@
-import asyncio
 from core import *
 from interfaces.cli import *
+from interfaces.ui import *
 
 config = load_config("config.json")
 """
