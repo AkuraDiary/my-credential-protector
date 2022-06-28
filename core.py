@@ -107,12 +107,15 @@ def init_config(filenames):
 
 def init_user_auth():
     message_info("Initializing User Authentication")
+    tokenFile = load_config(config["cipher-token-file"])
+    user_token = tokenFile["token"] #get user token
+
     user_cred_config = config["usr-cred-file"]
     username = input("Enter your username: ")
     password = input("Enter your master password: ")
 
-    hashedUsrname = hash_string(username)
-    hashedPassword = hash_string(password)
+    hashedUsrname = hash_string(username + user_token)
+    hashedPassword = hash_string(password + user_token)
 
     add_entry_to_config(user_cred_config, "username", hashedUsrname)
     add_entry_to_config(user_cred_config, "password", hashedPassword)
@@ -153,9 +156,9 @@ def init_core_module():
         
         sleep(4)
 
-        init_user_auth()
         init_token()
-
+        init_user_auth()
+        
     
     message_info("Initialization completed")
 
@@ -170,7 +173,7 @@ def encrypt_file(filename):
     user_token = load_user_token()
     sigma = loadSigma()
     message_info("Encrypting file : " , filename)
-    #print(user_token)
+    
     data = ""
     encrypted_data = ""
     secured_path = config["cred-output-dir"]
@@ -196,7 +199,6 @@ def encrypt_file(filename):
     message_info("succesfully encrypted file and stored file's hash")
 
 def read_encrypted_file(filename):
-    
     
     sigma = loadSigma()
     message_info("Reading file : " , filename)
