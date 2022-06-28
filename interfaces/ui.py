@@ -1,4 +1,6 @@
+import site
 import sys
+from turtle import color
 
 from matplotlib.pyplot import text
 from pip import main
@@ -44,9 +46,10 @@ def clear_textbox(component : Text):
 HELPERS METHODS
 """
 def show_credentials(target_component : Text):
+    clear_textbox(target_component) # make sure the text box is clear
     data = adapter.list_secured_credentials(retrieve_list=True)
     for _data in data:
-        _data = f"[FILE] {_data} \n"
+        _data = f"[FILE] {_data}\n\n"
         fill_textbox(target_component, _data)
 """
 HELPERS METHODS
@@ -65,25 +68,26 @@ def init_ui():
     main_display_text_box.config(border=4)
     main_display_text_box.config(height=20)
     ## NICE ##
-    main_display_text_box.config(padx=2, pady=2)
+    main_display_text_box.config(font=("Courier New", 12))
+    main_display_text_box.config()
     main_display_text_box.config(state=DISABLED)
 
     Label(
         _window, 
         text="My Credential Protector", 
         font=("Poppins, 24")
-        ).pack()
+        ).pack(expand=False, side=TOP)
 
-    fill_btn=Button(
-        _window, 
-        text="Fill Button", 
-        fg='white', 
-        command=lambda: fill_textbox(main_display_text_box, "Hello World")
-        )
+    # fill_btn=Button(
+    #     _window, 
+    #     text="Fill Button", 
+    #     fg='white', 
+    #     command=lambda: fill_textbox(main_display_text_box, "Hello World")
+    #     )
 
     clear_btn=Button(
         _window, 
-        text="Clear Button", 
+        text="Clear Main Display", 
         fg='white', 
         command=lambda: clear_textbox(main_display_text_box)
         )
@@ -92,7 +96,7 @@ def init_ui():
         _window, 
         text="List Your Credentials", 
         fg='white', 
-        command=lambda: show_credentials(target_component=main_display_text_box)
+        command=lambda: show_credentials(target_component=main_display_text_box),
         )
     """
     COMPONNENTS & BINDING
@@ -108,10 +112,10 @@ def init_ui():
     """
     PACK
     """
-    main_display_text_box.pack()
-    fill_btn.pack()
-    clear_btn.pack()
-    list_cred_btn.pack()
+    main_display_text_box.pack(expand=True, fill=X)
+    # fill_btn.pack()
+    list_cred_btn.pack(side=LEFT, pady=8, padx=8)
+    clear_btn.pack(side=LEFT, pady=8, padx=8)
     """
     PACK
     """
