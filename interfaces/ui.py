@@ -1,4 +1,5 @@
 import sys
+
 from matplotlib.pyplot import text
 
 from pygame import init
@@ -21,54 +22,84 @@ sys.path.append(parent)
 # directory.
 import adapter
 from utils.config_utilities import *
+import os # last import (all other imports above this one)
+os.environ['PYGAME_HIDE_SUPPORT_PROMPT'] = 'hide' #hide pygame message
 
-def fill(component, data):
+window = ""
+
+def fill_textbox(component : Text, data):
+
     component.config(state=NORMAL)
-    component.insert(data, text)
+    component.insert("1.0", data)
+    component.config(state=DISABLED)
+
+def clear_textbox(component : Text):
+
+    component.config(state=NORMAL)
+    component.delete("1.0", END)
     component.config(state=DISABLED)
 
 def init_ui():
+    _window = Tk()
+    
     """
     COMPONNENTS
     """
-    window = Tk()
-    text_box = Text(window, width=50, height=10, ).config(state=DISABLED)
+    main_display_text_box = Text(_window, width=50, height=10, )
+    main_display_text_box.config(state=DISABLED)
     
-    btn=Button(window, text="This is Button widget", fg='white')
-    btn.place(x=80, y=200)
+    fill_btn=Button(
+        _window, 
+        text="Fill Button", 
+        fg='white', 
+        command=lambda: fill_textbox(main_display_text_box, "Hello World")
+        )
+
+    clear_btn=Button(
+        _window, 
+        text="Clear Button", 
+        fg='white', 
+        command=lambda: clear_textbox(main_display_text_box)
+        )
     """
     COMPONNENTS
-    """
-    
-    """
-    PACK
-    """
-    btn.pack()
-    text_box.pack()
-    """
-    PACK
     """
 
     """
     BINDING
     """
-    btn.bind("<Button-1>", fill(text_box, "Hello World"))
+    #clear_btn.bind("<Button-1>", clear_textbox(text_box))
+    #fill_btn.bind("<Button-1>", fill_textbox(text_box, "Hello World"))
     """
     BINDING
     """
 
+    """
+    PACK
+    """
+    main_display_text_box.pack()
+    fill_btn.pack()
+    clear_btn.pack()
+    """
+    PACK
+    """
     ## WINDOW
-    window.attributes("-topmost", True)
-    window.title("MCP")
-    window.geometry("500x500")
-    window.mainloop()
+    _window.attributes("-topmost", True)
+    _window.title("MCP")
+    _window.geometry("500x500")
+    _window.mainloop()
     ## WINDOW
-
     
-    return window
+
+    return _window
+
+# def init_components(_window : Tk):
+  
+
 
 def use_ui():
-    init_ui()
+    window = init_ui()
+    return window
     
 
 if __name__ == '__main__':
