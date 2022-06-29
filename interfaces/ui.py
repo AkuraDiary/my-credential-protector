@@ -5,6 +5,7 @@ from tkinter import messagebox
 import os
 import ctypes
 import pathlib
+from tokenize import String
 from typing import List
 
 from pygame import init
@@ -41,31 +42,9 @@ window : Tk
 PROPERTIES
 """
 
-# files_list = ListBox()
-# currentPath = StringVar()
-
 """
 HELPERS METHODS
 """
-def fill_main_frame(component :Frame, btn:Button, _side):
-    btn.pack( side=_side, pady=4, padx=4)
-
-
-def clear_main_frame(component:Frame):
-    for widget in component.winfo_children():
-        widget.destroy()
-
-
-# def show_credentials(target_component : Frame):
-#     clear_main_frame(target_component) # make sure the text box is clear
-    
-#     # photo = PhotoImage(file = r".\utils\cred.png").subsample(9)
-#     # Clearing the list
-#     files_list.delete(0, END)
-#     # Inserting the files and directories into the list
-#     for file in directory:
-#         list.insert(0, file)
-#     # for _data in data:
 
 def show_credentials(*event, _list:ListBox):
     # Get all Files and Folders from secured cred dir
@@ -79,22 +58,20 @@ def show_credentials(*event, _list:ListBox):
         print(_list.get(0))
        
 
-def read_this_credential(_filename):
-    _filename.replace("\n", "")
-    _filename.replace("encrypted-", "")
+def read_this_credential(_filename:String):
+    _filename = _filename.removeprefix("encrypted-")
     data = adapter.read_secured_file(_filename, retrieve_data=True)
     messagebox.showinfo("Decrypted Credential Data", data)
 
 
 def openTheFile(_list: ListBox, event=None):
     # Get clicked item.
-    #picked = _files_list.get(_files_list.curselection())
-    message_info("open the file")
-    message_info(_list.get(_list.curselection()))
-    # get the complete path by joining the current path with the picked item
-    # path = os.path.picked
-    #read_this_credential(picked)
+    picked = _list.get(_list.curselection()[0])
+    read_this_credential(picked)
 
+def refresh_credentials_list(_list_file:ListBox):
+    adapter.rescan_for_new_files()
+    show_credentials(_list = _list_file) #refresh the list
 """
 HELPERS METHODS
 """
@@ -105,11 +82,9 @@ def init_ui():
     """
     COMPONNENTS & BINDING
     """
-
     main_display_box = Frame(_window)
     
-    # List of files and folder
-    # files_list = Listbox(main_display_box)
+    # List of files in secured-credentials directory
     files_list = Listbox(main_display_box)
 
     ## NICE ##
@@ -125,18 +100,15 @@ def init_ui():
         font=("Poppins, 24")
         ).pack(expand=False, side=TOP)
 
-    # getting the secured credentials files
+    # getting the secured credentials files and populate it ito the list
     show_credentials(_list = files_list)
 
-    # List Accelerators
-    #files_list.bind('<Double-1>', openTheFile(files_list, event=None))
-
-    # fill_btn=Button(
-    #     _window, 
-    #     text="Fill Button", 
-    #     fg='white', 
-    #     command=lambda: fill_textbox(main_display_text_box, "Hello World")
-    #     )
+    scan_for_new_cred_btn=Button(
+        _window, 
+        text="Scan for new credentials", 
+        fg='white', 
+        command=lambda: refresh_credentials_list(_list_file = files_list),
+        )
 
     open_btn=Button(
         _window, 
@@ -145,22 +117,9 @@ def init_ui():
         command=lambda: openTheFile(files_list, event=None)
         )
     
-    scan_for_new_cred_btn=Button(
-        _window, 
-        text="Scan for new credentials", 
-        fg='white', 
-        # command=lambda: show_credentials(target_component=main_display_box),
-        )
     
     """
     COMPONNENTS & BINDING
-    """
-
-    """
-    BINDING
-    """
-    """
-    BINDING
     """
 
     """
@@ -170,10 +129,12 @@ def init_ui():
 
     files_list.pack( expand=True, fill=X) # list pack
 
-    #buttons pack
-    open_btn.pack(side=LEFT, pady=8, padx=8)
+    # buttons pack    
     scan_for_new_cred_btn.pack(side=LEFT, pady=8, padx=8)
-    # clear_btn.pack(side=LEFT, pady=8, padx=8)
+    open_btn.pack(side=RIGHT, pady=8, padx=8)
+    # buttons pack    
+
+
     """
     PACK
     """
@@ -186,11 +147,7 @@ def init_ui():
     _window.configure(pady=10, padx=10)
     _window.mainloop()
     ## WINDOW
-
-    #return _window
-
-# def init_components(_window : Tk):
-  
+ 
 
 
 def use_ui():
