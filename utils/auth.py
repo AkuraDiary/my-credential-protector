@@ -43,26 +43,18 @@ def do_login(_username, _password):
         return True
     else:
         message_warn("Login failed")
-        update_auth_hash(_username, _password)    
-        message_info("Please Re run the program")
+        oldHash = {
+            "usrname" : validate_string_hash(_username, load_config(user_cred_config)["username"]), 
+            "pass": validate_string_hash(_password, load_config(user_cred_config)["password"])
+            }
+        if(oldHash["usrname"] and oldHash["pass"]):
+            message_info("Trying to check the oldhash")
+            message_info("Old hash is valid")
+            update_auth_hash(_username, _password)
+            message_info("Please Re run the program")
+            return True
         exit()
-       
-            
-
-    # if usernameIsValid:
-    #     message_warn("Username is invalid")
-    #     try:
-    #         update_auth_hash(username, password)
-    #         message_info("Re run the programs")
-    #     except Exception as e:
-    #         raise Exception("Failed to update auth hash", e)
-    # else:
-    #     if load_config(user_cred_config)["password"] == hashedPassword:
-    #         message_info("Login success")
-    #         return True
-    #     else:
-    #         message_warn("Login failed")
-    #         raise Exception("Invalid password")
+  
 
 def cli_do_auth():
     message_info("Authenticating")
