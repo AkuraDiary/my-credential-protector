@@ -101,9 +101,11 @@ def init_first_run_sequence():
     message_info("succesfully runned first run sequence")
 
 def init_config(filenames):
-    open(filenames["cipher-token-file"], "w").close()
+    if is_empty(filenames["cipher-token-file"]):
+        open(filenames["cipher-token-file"], "w").close()
+    if is_empty(filenames["hashes-file"]):
+        open(filenames["hashes-file"], "w").close()
     open(filenames["usr-cred-file"], "w").close()
-    open(filenames["hashes-file"], "w").close()
 
 def init_user_auth():
     message_info("Initializing User Authentication")
@@ -156,7 +158,9 @@ def init_core_module():
         
         sleep(4)
 
-        init_token()
+        if is_empty(filenames["hashes-file"]):
+            init_token()
+            
         init_user_auth()
         
     
