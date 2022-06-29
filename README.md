@@ -15,7 +15,7 @@ git clone https://github.com/AkuraDiary/my-credential-protector.git
 
 > step 2 Navigate and open the terminal in directory you cloned this project to then type
 ```
-py main.py
+py mcp.py
 ```
 
 > place your credentials files in ```.\credentials``` directory in ```.txt``` format, and the program will automatically detected it
