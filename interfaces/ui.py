@@ -1,11 +1,12 @@
-import site
+from calendar import c
+from msilib.schema import ListBox
 import sys
-from turtle import color
+from tkinter import messagebox
+import os
+import ctypes
+import pathlib
+from typing import List
 
-from matplotlib.pyplot import text
-from pip import main
-
-from pygame import init
 from utils.log_neko import *
 import os
 from tkinter import *
@@ -25,32 +26,60 @@ sys.path.append(parent)
 # directory.
 import adapter
 from utils.config_utilities import *
-import os # last import (all other imports above this one)
-os.environ['PYGAME_HIDE_SUPPORT_PROMPT'] = 'hide' #hide pygame message
+# Increas Dots Per inch so it looks sharper
+ctypes.windll.shcore.SetProcessDpiAwareness(True)
 
 window : Tk
-
-def fill_textbox(component : Text, data):
-
-    component.config(state=NORMAL)
-    component.insert("1.0", data)
-    component.config(state=DISABLED)
-
-def clear_textbox(component : Text):
-
-    component.config(state=NORMAL)
-    component.delete("1.0", END)
-    component.config(state=DISABLED)
-
+# files_list = ListBox()
+# currentPath = StringVar()
 """
 HELPERS METHODS
 """
-def show_credentials(target_component : Text):
-    clear_textbox(target_component) # make sure the text box is clear
+def fill_main_frame(component :Frame, btn:Button, _side):
+    btn.pack( side=_side, pady=4, padx=4)
+
+
+def clear_main_frame(component:Frame):
+    for widget in component.winfo_children():
+        widget.destroy()
+
+
+# def show_credentials(target_component : Frame):
+#     clear_main_frame(target_component) # make sure the text box is clear
+    
+#     # photo = PhotoImage(file = r".\utils\cred.png").subsample(9)
+#     # Clearing the list
+#     files_list.delete(0, END)
+#     # Inserting the files and directories into the list
+#     for file in directory:
+#         list.insert(0, file)
+#     # for _data in data:
+
+def show_credentials(*event, file_list:Listbox):
+    # Get all Files and Folders from secured cred dir
     data = adapter.list_secured_credentials(retrieve_list=True)
+    # Clearing the list
+    file_list.delete(0, END)
+    # Inserting the files and directories into the list
     for _data in data:
-        _data = f"[FILE] {_data}\n\n"
-        fill_textbox(target_component, _data)
+        file_list.insert(0, _data)
+       
+
+def read_this_credential(_filename):
+    _filename.replace("\n", "")
+    _filename.replace("encrypted-", "")
+    data = adapter.read_secured_file(_filename, retrieve_data=True)
+    messagebox.showinfo("Decrypted Credential Data", data)
+
+
+def openTheFile(event=None ):
+    # _path = ".\\secured-credentielas\\"
+    # Get clicked item.
+    picked = list.get(list.curselection()[0])
+    # get the complete path by joining the current path with the picked item
+    # path = os.path.picked
+    read_this_credential(picked)
+
 """
 HELPERS METHODS
 """
@@ -61,16 +90,14 @@ def init_ui():
     """
     COMPONNENTS & BINDING
     """
-    main_display_text_box = Text(_window)
+    main_display_box = Frame(_window)
 
     ## NICE ##
-    main_display_text_box.config(width=69)
-    main_display_text_box.config(border=4)
-    main_display_text_box.config(height=20)
+    main_display_box.config(width=69)
+    main_display_box.config(border=4)
+    main_display_box.config(height=20)
     ## NICE ##
-    main_display_text_box.config(font=("Courier New", 12))
-    main_display_text_box.config()
-    main_display_text_box.config(state=DISABLED)
+
 
     Label(
         _window, 
@@ -78,6 +105,14 @@ def init_ui():
         font=("Poppins, 24")
         ).pack(expand=False, side=TOP)
 
+    # List of files and folder
+    files_list = Listbox(main_display_box)
+    files_list.grid(sticky='NSEW', column=1, row=1, ipady=10, ipadx=10)
+
+    # List Accelerators
+    files_list.bind('<Double-1>', openTheFile)
+    # files_list.bind('<Return>', openTheFile)
+    show_credentials(file_list = files_list)
     # fill_btn=Button(
     #     _window, 
     #     text="Fill Button", 
@@ -85,19 +120,20 @@ def init_ui():
     #     command=lambda: fill_textbox(main_display_text_box, "Hello World")
     #     )
 
-    clear_btn=Button(
-        _window, 
-        text="Clear Main Display", 
-        fg='white', 
-        command=lambda: clear_textbox(main_display_text_box)
-        )
+    # clear_btn=Button(
+    #     _window, 
+    #     text="Clear Main Display", 
+    #     fg='white', 
+    #     command=lambda: clear_main_frame(main_display_box)
+    #     )
     
-    list_cred_btn=Button(
-        _window, 
-        text="List Your Credentials", 
-        fg='white', 
-        command=lambda: show_credentials(target_component=main_display_text_box),
-        )
+    # list_cred_btn=Button(
+    #     _window, 
+    #     text="List Your Credentials", 
+    #     fg='white', 
+    #     command=lambda: show_credentials(target_component=main_display_box),
+    #     )
+    
     """
     COMPONNENTS & BINDING
     """
@@ -112,10 +148,10 @@ def init_ui():
     """
     PACK
     """
-    main_display_text_box.pack(expand=True, fill=X)
+    main_display_box.pack(side=TOP, expand=True, fill=BOTH)
     # fill_btn.pack()
-    list_cred_btn.pack(side=LEFT, pady=8, padx=8)
-    clear_btn.pack(side=LEFT, pady=8, padx=8)
+    # list_cred_btn.pack(side=LEFT, pady=8, padx=8)
+    # clear_btn.pack(side=LEFT, pady=8, padx=8)
     """
     PACK
     """
@@ -123,6 +159,7 @@ def init_ui():
     _window.attributes("-topmost", True)
     _window.title("MCP")
     _window.geometry("500x500")
+    _window.resizable(False, False)
     _window.configure(pady=10, padx=10)
     _window.mainloop()
     ## WINDOW
