@@ -78,7 +78,7 @@ def create_dialog(title="", _data=""):
     dialog.configure(width=69)
     ## NICE
 
-    dataDialog.pack(fill=BOTH)
+    dataDialog.pack()
     fill_textbox(dataDialog, _data)
 
     return dialog
