@@ -51,15 +51,6 @@ def clear_textbox(component : Text):
     component.config(state=NORMAL)
     component.delete("1.0", END)
     component.config(state=DISABLED)
-
-def show_credentials(*event, _list:ListBox):
-    # Get all Files and Folders from secured cred dir
-    data = adapter.list_secured_credentials(retrieve_list=True)
-    # Clearing the list
-    _list.delete(0, END)
-    # Populating the list
-    for _data in data:
-        _list.insert(0, _data)
        
 def create_dialog(title="", _data=""):
     ## dialog panel
@@ -83,12 +74,21 @@ def create_dialog(title="", _data=""):
 
     return dialog
 
+    
+
+"""
+HELPERS METHODS
+"""
+
+"""
+FEATURES METHODS
+"""
+
 def read_this_credential(_filename:String):
     _filename = _filename.removeprefix("encrypted-")
     data = adapter.read_secured_file(_filename, retrieve_data=True)
     dialog = create_dialog("Decrypted Credential", data)
     dialog.mainloop()
-    
 
 def openTheFile(_list: ListBox, event=None):
     # Get clicked item.
@@ -98,8 +98,20 @@ def openTheFile(_list: ListBox, event=None):
 def refresh_credentials_list(_list_file:ListBox):
     adapter.rescan_for_new_files()
     show_credentials(_list = _list_file) #refresh the list
+
+def show_credentials(*event, _list:ListBox):
+    # Get all Files and Folders from secured cred dir
+    data = adapter.list_secured_credentials(retrieve_list=True)
+    # Clearing the list
+    _list.delete(0, END)
+    # Populating the list
+    for _data in data:
+        _list.insert(0, _data)
+
+
+
 """
-HELPERS METHODS
+FEATURE METHODS
 """
 
 def init_ui():
@@ -118,7 +130,6 @@ def init_ui():
     files_list.config(border=4)
     files_list.config(height=20)
     ## NICE ##
-
 
     Label(
         _window, 
@@ -143,7 +154,6 @@ def init_ui():
         fg='white', 
         command=lambda: openTheFile(files_list, event=None)
         )
-    
     
     """
     COMPONNENTS & BINDING
