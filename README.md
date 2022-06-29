@@ -65,6 +65,28 @@ py mcp.py
   
 </details>
 
+### GUI MODE
+<details>
+  <summary>Menus</summary>
+  
+  ![Previews](https://github.com/AkuraDiary/my-credential-protector/blob/main/images/uimode.png)
+  
+</details>
+
+<details>
+  <summary>Add New Credentials</summary>
+  
+  ![Previews](https://github.com/AkuraDiary/my-credential-protector/blob/main/images/uimode_add.png)
+  
+</details>
+
+<details>
+  <summary>Read Secured Credentials</summary>
+  
+  ![Previews](https://github.com/AkuraDiary/my-credential-protector/blob/main/images/uimode_open.png)
+  
+</details>
+
 ## How it basically works? 🥯
 ```
 - First it will ask you to create a credential (username and master password)
