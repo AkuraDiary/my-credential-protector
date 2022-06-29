@@ -75,6 +75,7 @@ def main():
             exit()
     elif mode == "ui":
         message_info("Initializing MCP UI Mode")
+        message_warn("DO NOT CLOSE THIS TERMINAL")
         use_ui()
     else:
         message_warn("Invalid mode")

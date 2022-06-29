@@ -7,6 +7,9 @@ import ctypes
 import pathlib
 from typing import List
 
+from pygame import init
+
+
 from utils.log_neko import *
 import os
 from tkinter import *
@@ -29,9 +32,18 @@ from utils.config_utilities import *
 # Increas Dots Per inch so it looks sharper
 ctypes.windll.shcore.SetProcessDpiAwareness(True)
 
+
+"""
+PROPERTIES
+"""
 window : Tk
+"""
+PROPERTIES
+"""
+
 # files_list = ListBox()
 # currentPath = StringVar()
+
 """
 HELPERS METHODS
 """
@@ -55,14 +67,16 @@ def clear_main_frame(component:Frame):
 #         list.insert(0, file)
 #     # for _data in data:
 
-def show_credentials(*event, file_list:Listbox):
+def show_credentials(*event, _list:ListBox):
     # Get all Files and Folders from secured cred dir
     data = adapter.list_secured_credentials(retrieve_list=True)
     # Clearing the list
-    file_list.delete(0, END)
-    # Inserting the files and directories into the list
+    _list.delete(0, END)
+    # Populating the list
+    print("show cred method ui")
     for _data in data:
-        file_list.insert(0, _data)
+        _list.insert(0, _data)
+        print(_list.get(0))
        
 
 def read_this_credential(_filename):
@@ -72,13 +86,14 @@ def read_this_credential(_filename):
     messagebox.showinfo("Decrypted Credential Data", data)
 
 
-def openTheFile(event=None ):
-    # _path = ".\\secured-credentielas\\"
+def openTheFile(_list: ListBox, event=None):
     # Get clicked item.
-    picked = list.get(list.curselection()[0])
+    #picked = _files_list.get(_files_list.curselection())
+    message_info("open the file")
+    message_info(_list.get(_list.curselection()))
     # get the complete path by joining the current path with the picked item
     # path = os.path.picked
-    read_this_credential(picked)
+    #read_this_credential(picked)
 
 """
 HELPERS METHODS
@@ -90,12 +105,17 @@ def init_ui():
     """
     COMPONNENTS & BINDING
     """
+
     main_display_box = Frame(_window)
+    
+    # List of files and folder
+    # files_list = Listbox(main_display_box)
+    files_list = Listbox(main_display_box)
 
     ## NICE ##
-    main_display_box.config(width=69)
-    main_display_box.config(border=4)
-    main_display_box.config(height=20)
+    files_list.config(width=69)
+    files_list.config(border=4)
+    files_list.config(height=20)
     ## NICE ##
 
 
@@ -105,14 +125,12 @@ def init_ui():
         font=("Poppins, 24")
         ).pack(expand=False, side=TOP)
 
-    # List of files and folder
-    files_list = Listbox(main_display_box)
-    files_list.grid(sticky='NSEW', column=1, row=1, ipady=10, ipadx=10)
+    # getting the secured credentials files
+    show_credentials(_list = files_list)
 
     # List Accelerators
-    files_list.bind('<Double-1>', openTheFile)
-    # files_list.bind('<Return>', openTheFile)
-    show_credentials(file_list = files_list)
+    #files_list.bind('<Double-1>', openTheFile(files_list, event=None))
+
     # fill_btn=Button(
     #     _window, 
     #     text="Fill Button", 
@@ -120,19 +138,19 @@ def init_ui():
     #     command=lambda: fill_textbox(main_display_text_box, "Hello World")
     #     )
 
-    # clear_btn=Button(
-    #     _window, 
-    #     text="Clear Main Display", 
-    #     fg='white', 
-    #     command=lambda: clear_main_frame(main_display_box)
-    #     )
+    open_btn=Button(
+        _window, 
+        text="Open", 
+        fg='white', 
+        command=lambda: openTheFile(files_list, event=None)
+        )
     
-    # list_cred_btn=Button(
-    #     _window, 
-    #     text="List Your Credentials", 
-    #     fg='white', 
-    #     command=lambda: show_credentials(target_component=main_display_box),
-    #     )
+    scan_for_new_cred_btn=Button(
+        _window, 
+        text="Scan for new credentials", 
+        fg='white', 
+        # command=lambda: show_credentials(target_component=main_display_box),
+        )
     
     """
     COMPONNENTS & BINDING
@@ -148,13 +166,18 @@ def init_ui():
     """
     PACK
     """
-    main_display_box.pack(side=TOP, expand=True, fill=BOTH)
-    # fill_btn.pack()
-    # list_cred_btn.pack(side=LEFT, pady=8, padx=8)
+    main_display_box.pack( expand=True, fill=BOTH, ipadx=10, ipady=10) #display pack
+
+    files_list.pack( expand=True, fill=X) # list pack
+
+    #buttons pack
+    open_btn.pack(side=LEFT, pady=8, padx=8)
+    scan_for_new_cred_btn.pack(side=LEFT, pady=8, padx=8)
     # clear_btn.pack(side=LEFT, pady=8, padx=8)
     """
     PACK
     """
+
     ## WINDOW
     _window.attributes("-topmost", True)
     _window.title("MCP")
@@ -164,15 +187,16 @@ def init_ui():
     _window.mainloop()
     ## WINDOW
 
-    return _window
+    #return _window
 
 # def init_components(_window : Tk):
   
 
 
 def use_ui():
-    window = init_ui()
-    return window
+    init_ui()
+    #window = init_ui()
+    #return window
     
 
 if __name__ == '__main__':
