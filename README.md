@@ -6,7 +6,7 @@ A simple project to make simple things such as securing credentials to be compli
 
 I used to save my credentials in ```.txt``` file and scatter it all around my folders. so i want to make some kinda of folder where i can safely put my credentials in it. And i'd like it to be accessed locally. So i learned about how to validating a file, some ciphers, and made this project to wrapped it all. After all, why not
 
-## Would like to try it? go on 🥘
+## Would you like to try it? 🥘
 
 > step 1 clone this repos into your local machine (make sure you have git installed)
 ```
@@ -89,13 +89,13 @@ py mcp.py
 
 ## How it basically works? 🥯
 ```
-- First it will ask you to create a credential (username and master password)
-- Then it will generate token and private key for you (you'll be prompted to set the token length tho)
+- First it will generate token and private key for you (you'll be prompted to set the token length tho)
+- Then it will ask you to create a credential (username and master password)
 - It will secure it by saving the hashed credential and not the credential itself
-- After that, put all of your credentials that you saved in `.txt` files into ```.\credentials``` directory
+- After that, put all of your credentials that you saved in `.txt` files into ```.\credentials``` dir
 - And it will scan the dir and automatically encrypted all of your `.txt` files 
-- It will save it into ```.\secured-credentials``` directory and clear the ```.\credentials``` directory
-- If you want to read the file, you just need to choosed it from the app (STIL IN TODO 🥞)
+- It will save it into ```.\secured-credentials``` directory and clear the ```.\credentials``` dir
+- If you want to read the file, you just need to choosed it from the app
 
 All of the process here is happened locally, you only need internet connection when you first run it 
 (to clone the dependencies it needed)
