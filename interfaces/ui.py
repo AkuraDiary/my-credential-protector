@@ -145,6 +145,23 @@ def ui_change_master_cred(root, _username, _password, event="<Return>"):
     else:
         messagebox.showerror("Authentication Failed", "Check Your Credentials")
     root.destroy()
+
+def ui_add_new_cred():
+    _sdialog = create_dialog("Add new credential")
+    Label(
+        _sdialog, 
+        text="New Cred File name (.txt)", 
+        font=("Poppins, 14")
+        ).pack(expand=False, side=TOP)
+
+    txt_filename = Entry(_sdialog)
+    txt_filename.pack()
+
+    btn_ok = Button(_sdialog, text="Add", command=lambda: adapter.add_new_credential(txt_filename.get()))
+    btn_ok.pack()
+    _sdialog.bind("<Return>", lambda event: adapter.add_credentials(txt_filename.get()))
+    _sdialog.mainloop()
+
 """
 FEATURE METHODS
 """
@@ -188,6 +205,12 @@ def init_ui():
         fg='white', 
         command=lambda: ui_do_auth(ui_change_master_cred),
         )
+    new_cred_btn= Button(
+        _window, 
+        text="New Credential", 
+        fg='white', 
+        command=lambda: ui_add_new_cred(),
+        )
 
     open_btn=Button(
         _window, 
@@ -196,6 +219,7 @@ def init_ui():
         fg='white', 
         command=lambda: openTheFile(files_list, event=None)
         )
+    _window.bind("<Return>", lambda event: openTheFile(files_list, event=None))
     
     """
     COMPONNENTS & BINDING
@@ -209,11 +233,13 @@ def init_ui():
     files_list.pack( expand=True, fill=X) # list pack
 
     # buttons pack    
-    scan_for_new_cred_btn.pack(side=LEFT, pady=8, padx=8)
-    change_user_master_cred_btn.pack(side=LEFT, pady=8, padx=8)
-    open_btn.pack(side=RIGHT, pady=8, padx=8)
-    # buttons pack    
+    
+    change_user_master_cred_btn.pack(side=LEFT, pady=8, padx=2)
+    scan_for_new_cred_btn.pack(side=LEFT, pady=2, padx=2)
+    new_cred_btn.pack(side=LEFT)
 
+    open_btn.pack(side=RIGHT, pady=4)
+    # buttons pack    
 
     """
     PACK
@@ -232,9 +258,7 @@ def init_ui():
 
 def use_ui():
     init_ui()
-    #window = init_ui()
-    #return window
-    
+
 
 if __name__ == '__main__':
     print("THIS IS UI MODULE")

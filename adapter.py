@@ -59,6 +59,15 @@ def check_for_updates():
     message_info("Checking for updates")
     update()
 
+def add_credentials(_filename:String):
+    if ".txt" not in _filename:
+        _filename += ".txt"
+    target_dir = config["cred-input-dir"]
+    target_file = target_dir + "\\"+ _filename
+    
+    open(target_file, "w").close()
+    os.startfile(target_file)
+
 """
 ADAPTER METHODS
 """
