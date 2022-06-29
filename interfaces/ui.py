@@ -1,4 +1,5 @@
 from msilib.schema import ListBox
+from pkgutil import get_data
 import sys
 from tkinter import *
 import os
@@ -6,6 +7,7 @@ import ctypes
 from tkinter import dialog
 from tkinter import messagebox
 from tokenize import String
+from core import init_user_auth
 
 
 from utils.log_neko import *
@@ -52,7 +54,7 @@ def clear_textbox(component : Text):
     component.delete("1.0", END)
     component.config(state=DISABLED)
        
-def create_dialog(title="", _data=""):
+def create_dialog(title=""):
     ## dialog panel
     dialog = Tk()
     dialog.title(title)
@@ -61,16 +63,12 @@ def create_dialog(title="", _data=""):
     dialog.attributes("-topmost", True)
     ## dialog panel
 
-    ## dialog data
-    dataDialog = Text(dialog)
-
     ## NICE
     dialog.configure(height=69)
     dialog.configure(width=69)
     ## NICE
 
-    dataDialog.pack()
-    fill_textbox(dataDialog, _data)
+    dialog.focus_force()
 
     return dialog
 
@@ -87,7 +85,14 @@ FEATURES METHODS
 def read_this_credential(_filename:String):
     _filename = _filename.removeprefix("encrypted-")
     data = adapter.read_secured_file(_filename, retrieve_data=True)
-    dialog = create_dialog("Decrypted Credential", data)
+    dialog = create_dialog("Decrypted Credential")
+    
+    ## dialog data
+    dataDialog = Text(dialog)
+
+    dataDialog.pack()
+    fill_textbox(dataDialog, data)
+
     dialog.mainloop()
 
 def openTheFile(_list: ListBox, event=None):
@@ -108,8 +113,36 @@ def show_credentials(*event, _list:ListBox):
     for _data in data:
         _list.insert(0, _data)
 
+def change_credentials():
+    adapter.change_user_acc_cred()
+    message_info("User account and master password changed")
 
+def ui_do_auth():
+    
+    auth_dialog = create_dialog("Authentication")
+    Label(
+        auth_dialog, 
+        text="Authentication", 
+        font=("Poppins, 14")
+        ).pack(expand=False, side=TOP)
 
+    txt_username = Entry(auth_dialog)
+    txt_password = Entry(auth_dialog, show="*")
+    txt_username.pack()
+    txt_password.pack()
+
+    btn_ok = Button(auth_dialog, text="Login", command=lambda: do_auth(auth_dialog, txt_username.get(), txt_password.get()))
+    auth_dialog.bind("<Return>", lambda event: do_auth(auth_dialog, txt_username.get(), txt_password.get()))
+    btn_ok.pack()
+    auth_dialog.mainloop()
+
+def do_auth(root, _username, _password, event="<Return>"):
+    if(adapter.do_login(_username, _password)):
+        messagebox.showinfo("Authentication Successfull", "Check Your Terminal")
+        init_user_auth()
+    else:
+        messagebox.showerror("Authentication Failed", "Check Your Credentials")
+    root.destroy()
 """
 FEATURE METHODS
 """
@@ -147,6 +180,13 @@ def init_ui():
         command=lambda: refresh_credentials_list(_list_file = files_list),
         )
 
+    change_user_master_cred_btn=Button(
+        _window, 
+        text="Change Master Credential", 
+        fg='white', 
+        command=lambda: ui_do_auth(),
+        )
+
     open_btn=Button(
         _window, 
         text="Open", 
@@ -168,6 +208,7 @@ def init_ui():
 
     # buttons pack    
     scan_for_new_cred_btn.pack(side=LEFT, pady=8, padx=8)
+    change_user_master_cred_btn.pack(side=LEFT, pady=8, padx=8)
     open_btn.pack(side=RIGHT, pady=8, padx=8)
     # buttons pack    
 
