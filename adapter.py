@@ -80,8 +80,13 @@ def main():
         use_ui()
     else:
         message_warn("Invalid mode")
-        message_info("Using Default CLI")
-        use_cli()
+        message_info("Using Default UI MODE")
+        try:
+            use_ui()
+        except Exception as e:
+            message_warn(e)
+            message_info("Switching into CLI Mode")
+            use_cli()
 
 if __name__ == "__main__":
     print("THIS IS ADAPTER MODULE")
