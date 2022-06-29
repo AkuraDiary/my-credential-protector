@@ -57,6 +57,7 @@ def rescan_for_new_files():
 def check_for_updates():
     message_info("Checking for updates")
     update()
+
 """
 ADAPTER METHODS
 """
@@ -64,6 +65,7 @@ ADAPTER METHODS
 def main():
     start()
     mode = input("Enter mode (cli / ui): ")
+    print()
     mode.strip()
     if mode == "cli":
         try:
