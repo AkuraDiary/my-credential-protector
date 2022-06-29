@@ -27,13 +27,41 @@ py mcp.py
 - Might add recovery mechanism
 
 ## PREVIEW
-> ### This Project has 2 mode, CLI and UI mode
+> ### This Project has 2 mode, CLI and GUI mode
 
 ### CLI MODE
 <details>
   <summary>Menus</summary>
   
   ![Previews](https://github.com/AkuraDiary/my-credential-protector/blob/main/images/climode.png)
+  
+</details>
+
+<details>
+  <summary>Scan Secured Credentials</summary>
+  
+  ![Previews](https://github.com/AkuraDiary/my-credential-protector/blob/main/images/climode1.png)
+  
+</details>
+
+<details>
+  <summary>Read Secured Credentials</summary>
+  
+  ![Previews](https://github.com/AkuraDiary/my-credential-protector/blob/main/images/climode2.png)
+  
+</details>
+
+<details>
+  <summary>Scan New Credentials</summary>
+  
+  ![Previews](https://github.com/AkuraDiary/my-credential-protector/blob/main/images/climode3_empty.png)
+  ![Previews](https://github.com/AkuraDiary/my-credential-protector/blob/main/images/climode3_found.png)
+  
+</details>
+<details>
+  <summary>Update</summary>
+  
+  ![Previews](https://github.com/AkuraDiary/my-credential-protector/blob/main/images/climode4.png)
   
 </details>
 
