@@ -29,6 +29,14 @@ py mcp.py
 ## PREVIEW
 > ### This Project has 2 mode, CLI and UI mode
 
+### CLI MODE
+<details>
+  <summary>Menus</summary>
+  
+  ![Previews](https://github.com/AkuraDiary/my-credential-protector/blob/main/images/climode.png)
+  
+</details>
+
 ## How it basically works? 🥯
 ```
 - First it will ask you to create a credential (username and master password)
