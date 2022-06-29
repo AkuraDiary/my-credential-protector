@@ -23,9 +23,11 @@ py mcp.py
 > ### ENJOY 🍻
 
 ## TODO LIST OF THIS PROJECT 🥞
-- Add UI
 - Add Documentation
 - Might add recovery mechanism
+
+## PREVIEW
+> ### This Project has 2 mode, CLI and UI mode
 
 ## How it basically works? 🥯
 ```
