@@ -72,7 +72,28 @@ def create_dialog(title=""):
 
     return dialog
 
+
+def ui_do_auth(_action):
     
+    auth_dialog = create_dialog("Authentication")
+
+    Label(
+        auth_dialog, 
+        text="Authentication", 
+        font=("Poppins, 14")
+        ).pack(expand=False, side=TOP)
+
+    txt_username = Entry(auth_dialog)
+    txt_password = Entry(auth_dialog, show="*")
+    txt_username.pack()
+    txt_password.pack()
+
+    btn_ok = Button(auth_dialog, text="Login", command=lambda: _action(auth_dialog, txt_username.get(), txt_password.get()))
+    auth_dialog.bind("<Return>", lambda event: _action(auth_dialog, txt_username.get(), txt_password.get()))
+    btn_ok.pack()
+
+    auth_dialog.mainloop()
+
 
 """
 HELPERS METHODS
@@ -113,30 +134,11 @@ def show_credentials(*event, _list:ListBox):
     for _data in data:
         _list.insert(0, _data)
 
-def change_credentials():
+def change_credentials(): ## IDK WHAT THIS FUNCTION DOES, BUT DONT DELETE IT
     adapter.change_user_acc_cred()
     message_info("User account and master password changed")
 
-def ui_do_auth():
-    
-    auth_dialog = create_dialog("Authentication")
-    Label(
-        auth_dialog, 
-        text="Authentication", 
-        font=("Poppins, 14")
-        ).pack(expand=False, side=TOP)
-
-    txt_username = Entry(auth_dialog)
-    txt_password = Entry(auth_dialog, show="*")
-    txt_username.pack()
-    txt_password.pack()
-
-    btn_ok = Button(auth_dialog, text="Login", command=lambda: do_auth(auth_dialog, txt_username.get(), txt_password.get()))
-    auth_dialog.bind("<Return>", lambda event: do_auth(auth_dialog, txt_username.get(), txt_password.get()))
-    btn_ok.pack()
-    auth_dialog.mainloop()
-
-def do_auth(root, _username, _password, event="<Return>"):
+def ui_change_master_cred(root, _username, _password, event="<Return>"):
     if(adapter.do_login(_username, _password)):
         messagebox.showinfo("Authentication Successfull", "Check Your Terminal")
         init_user_auth()
@@ -184,7 +186,7 @@ def init_ui():
         _window, 
         text="Change Master Credential", 
         fg='white', 
-        command=lambda: ui_do_auth(),
+        command=lambda: ui_do_auth(ui_change_master_cred),
         )
 
     open_btn=Button(
