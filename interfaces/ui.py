@@ -139,6 +139,7 @@ def init_ui():
     open_btn=Button(
         _window, 
         text="Open", 
+        font=("12"),
         fg='white', 
         command=lambda: openTheFile(files_list, event=None)
         )
