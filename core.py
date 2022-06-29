@@ -158,9 +158,9 @@ def init_core_module():
         
         sleep(4)
 
-        if is_empty(filenames["hashes-file"]):
+        if is_empty(config["hashes-file"]):
             init_token()
-            
+
         init_user_auth()
         
     
