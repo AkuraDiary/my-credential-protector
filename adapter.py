@@ -47,6 +47,7 @@ def change_user_acc_cred():
     choice = input("Are you sure you want to continue? (y/n): ")
     print()
     if choice == "y":
+        cli_do_auth()
         init_user_auth()
     else:
         message_info("User account not changed")
