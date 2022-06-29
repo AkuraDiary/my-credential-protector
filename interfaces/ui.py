@@ -1,14 +1,11 @@
-from calendar import c
 from msilib.schema import ListBox
 import sys
-from tkinter import messagebox
+from tkinter import *
 import os
 import ctypes
-import pathlib
+from tkinter import dialog
+from tkinter import messagebox
 from tokenize import String
-from typing import List
-
-from pygame import init
 
 
 from utils.log_neko import *
@@ -45,6 +42,15 @@ PROPERTIES
 """
 HELPERS METHODS
 """
+def fill_textbox(component : Text, data):
+    component.config(state=NORMAL)
+    component.insert("1.0", data)
+    component.config(state=DISABLED)
+
+def clear_textbox(component : Text):
+    component.config(state=NORMAL)
+    component.delete("1.0", END)
+    component.config(state=DISABLED)
 
 def show_credentials(*event, _list:ListBox):
     # Get all Files and Folders from secured cred dir
@@ -52,17 +58,37 @@ def show_credentials(*event, _list:ListBox):
     # Clearing the list
     _list.delete(0, END)
     # Populating the list
-    print("show cred method ui")
     for _data in data:
         _list.insert(0, _data)
-        print(_list.get(0))
        
+def create_dialog(title="", _data=""):
+    ## dialog panel
+    dialog = Tk()
+    dialog.title(title)
+    dialog.resizable(False, False)
+    dialog.configure(pady=10, padx=10)
+    dialog.attributes("-topmost", True)
+    ## dialog panel
+
+    ## dialog data
+    dataDialog = Text(dialog)
+
+    ## NICE
+    dialog.configure(height=69)
+    dialog.configure(width=69)
+    ## NICE
+
+    dataDialog.pack(fill=BOTH)
+    fill_textbox(dataDialog, _data)
+
+    return dialog
 
 def read_this_credential(_filename:String):
     _filename = _filename.removeprefix("encrypted-")
     data = adapter.read_secured_file(_filename, retrieve_data=True)
-    messagebox.showinfo("Decrypted Credential Data", data)
-
+    dialog = create_dialog("Decrypted Credential", data)
+    dialog.mainloop()
+    
 
 def openTheFile(_list: ListBox, event=None):
     # Get clicked item.
