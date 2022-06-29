@@ -27,7 +27,7 @@ py mcp.py
 - Might add recovery mechanism
 
 ## PREVIEW
-> ### This Project has 2 mode, CLI and GUI mode
+> ### This Project has 2 mode, CLI and GUI mode (on the way to match the feature on both mode)
 
 ### CLI MODE
 <details>
