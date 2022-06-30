@@ -56,13 +56,16 @@ def do_login(_username, _password):
         exit()
   
 
-def cli_do_auth():
+def cli_do_auth(sendResponse=False):
     message_info("Authenticating")
     username = input("Enter your username: ")
     password = getpass("Enter your master password: ")
     print()
     try:
-        return do_login(username, password)
+        if sendResponse:
+            return username, password, do_login(username, password)
+        else:
+            return do_login(username, password)
     except Exception as e:
         message_warn(e)
         return False
