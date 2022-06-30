@@ -23,8 +23,10 @@ py mcp.py
 > ### ENJOY 🍻
 
 ## TODO LIST OF THIS PROJECT 🥞
+- Add safe update and backup mechanism
+- Match the cli and gui mode features
+- Add more crucial features like edit the file on the go
 - Add Documentation
-- Might add recovery mechanism
 
 ## PREVIEW
 > ### This Project has 2 mode, CLI and GUI mode (on the way to match the feature on both mode)
