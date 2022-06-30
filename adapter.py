@@ -30,7 +30,7 @@ def list_secured_credentials(retrieve_list=False):
         
 
 def change_token():
-    message_warn("Warning, this is will change your token and you might won't be able to use it to read your previeous encrypted file")
+    message_warn("Warning, this is will change your token and \nYOU WON'T BE ABLE TO USE THE TOKEN TO READ YOU PREVIOUSLY ENCRPYTED CREDENTIALS")
     choice = input("Are you sure you want to continue? (y/n): ")
     print()
     if choice == "y":
