@@ -105,7 +105,8 @@ def init_config(filenames):
         open(filenames["cipher-token-file"], "w").close()
     if is_empty(filenames["hashes-file"]):
         open(filenames["hashes-file"], "w").close()
-    open(filenames["usr-cred-file"], "w").close()
+    if is_empty(filenames["usr-cred-file"]):
+        open(filenames["usr-cred-file"], "w").close()
 
 def init_user_auth():
     message_info("Initializing User Authentication")
