@@ -50,6 +50,7 @@ def load_user_token():
 def validate_private_key(token, privateKeyHash):
     sigma=loadSigma()
     privateKey = sigma.generate_private_key(token)
+    
     if validate_string_hash(privateKey, privateKeyHash):
         message_info("Private key is valid")
         return privateKey
@@ -185,7 +186,8 @@ def encrypt_file(filename):
     file_path = config["cred-input-dir"] + "\\" + filename
 
     data = readFileContent(file_path)
-    encrypted_data = sigma.start_encode(data, user_token)
+    # encrypted_data = sigma.start_encode(data, user_token, False)
+    encrypted_data = sigma.start_encode(data, user_token) # default new sigma version
     
     message_info(f"Moving {filename} file to .\\secured-credentials")
     encrypted_filename = makeCopyOfFile(filename, encrypted_data, path=secured_path, retrieve_fileName=True)
@@ -224,9 +226,15 @@ def read_encrypted_file(filename):
     if (validate_file_hash(file_path, file_hash)):
         message_info("File's hash is valid")
         data = readFileContent(file_path)
-        decrypted_data = sigma.start_decode(data, user_private_key)
+
+        print("pub key : ", user_token)
+        print("priv key : ", user_private_key)
+        print("data : ", data)
         
+        
+        decrypted_data = sigma.start_decode(data, user_private_key) #default sigma version
         return decrypted_data
+        
 
     else:
         message_warn("File's hash is invalid")

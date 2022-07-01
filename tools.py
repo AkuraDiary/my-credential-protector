@@ -1,7 +1,6 @@
 from asyncio import subprocess
 import asyncio
-from asyncore import loop
-from multiprocessing.connection import wait
+from sigma_ciphers_cryptograms.core import Sigma
 from utils.validation import *
 from utils.config_utilities import *
 import subprocess
@@ -83,9 +82,20 @@ def update():
     except Exception as e:
         message_warn(e)
         print()#space
+    finally:
+        message_info("Please re-run the program to apply changes")
 """
 DEPENDENCIES TOOLS
 """
+
+"""
+BACKUP CONVINENCE METHODS TOOLS
+"""
+
+"""
+BACKUP CONVINENCE METHODS TOOLS
+"""
+
 if __name__ == '__main__':
     print("THIS IS TOOLS MODULES TODO (ADD DOCUMENTATION)")
 
