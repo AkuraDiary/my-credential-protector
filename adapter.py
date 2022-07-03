@@ -66,8 +66,10 @@ def rescan_for_new_files():
     scan_credentials_dir()
 
 def check_for_updates():
+    do_backup()
     message_info("Checking for updates")
     update()
+    import_backup()
 
 def add_credentials(_filename:String):
     if ".txt" not in _filename:
