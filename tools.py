@@ -138,11 +138,10 @@ def update():
     try:
         loop.run_until_complete(pull(load_config("config.json")["cipher_path"]))
         loop.run_until_complete(pull(load_config("config.json")["mcp_path"]))
+        message_info("Please close and open the program to apply changes and prevents data lost ")
     except Exception as e:
         message_warn(e)
         print()#space
-    finally:
-        message_info("Please re-run the program to apply changes")
         
     
 """

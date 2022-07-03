@@ -146,6 +146,9 @@ def init_on_start():
     message_info("Initializing")
     
     if(cli_do_auth()):
+        if os.path.exists(config["backup-path"]):
+            message_info("checking for backup")
+            import_backup()
         threading.Thread(scan_credentials_dir()).start()
     else:
         message_warn("User Authentication failed")
