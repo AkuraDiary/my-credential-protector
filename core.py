@@ -171,6 +171,67 @@ def init_core_module():
 """
 INIT METHODS
 """ 
+    
+"""
+BACKUP CONVINENCE METHODS TOOLS
+"""
+def do_backup():
+    #check if backup folder exists
+    backup_path = config["backup-path"]
+    secured_cred_path = config["cred-output-dir"]
+    if not os.path.exists(backup_path):
+        os.makedirs(backup_path)
+    #copy all and decrypt files in secured credentials to backup folder
+    message_info("Backing up files")
+    encrypted_file_list = list_files_in_dir(secured_cred_path)
+    if encrypted_file_list is not None:
+        encrypted_file_list.remove(".gitignore")
+        message_info("Creating Backup")
+        
+        #Decrypt the files and move it into backup
+        for file in encrypted_file_list:
+            try:
+                data = read_encrypted_file(file)
+                #strip "encrypted-" from filename
+                filename = file.replace("encrypted-", "")
+                makeCopyOfFile(oldFileName = filename, newContent= data, status="backup", path=backup_path)
+            except Exception as e:
+                message_warn(e)
+                print()
+        
+        message_info("Succesfully doing backup")
+     
+        # clear_dir(backup_path)
+def import_backup():
+    message_info("Importing backup files")
+    backup_path = config["backup-path"]
+    
+    backupFileList = list_files_in_dir(backup_path)
+    cred_path = config["cred-input-dir"]
+    if backupFileList is not None:
+        message_info(backupFileList)
+        for file in backupFileList:
+            try:
+                file_path = backup_path + "\\" + file
+                data = readFileContent(file_path)
+
+                #remove the state from original filename
+                filename = file.replace("backup-", "")
+                # move file into cred-input-dir
+                with open(cred_path + "\\" + filename, "w") as f:
+                    f.write(data)                
+            except Exception as e:
+                message_warn(e)     
+        message_info("Succesfully imported backup files")
+        #remove backup dir
+        message_info("Removing backup directory")
+        os.popen("rd /s /q " + backup_path)
+        scan_credentials_dir()
+        
+
+"""
+BACKUP CONVINENCE METHODS TOOLS
+"""
 
 """
 METHOD THAT CONNECTS INTO SIGMA MODULE
@@ -225,12 +286,7 @@ def read_encrypted_file(filename):
     message_info("Validating file's hash")
     if (validate_file_hash(file_path, file_hash)):
         message_info("File's hash is valid")
-        data = readFileContent(file_path)
-
-        print("pub key : ", user_token)
-        print("priv key : ", user_private_key)
-        print("data : ", data)
-        
+        data = readFileContent(file_path)       
         
         decrypted_data = sigma.start_decode(data, user_private_key) #default sigma version
         return decrypted_data
@@ -255,6 +311,8 @@ def start():
 if __name__ == '__main__':
     print("THIS IS CORE MODULE")
     start()
+    # do_backup()
+    # import_backup()
     #init_user_auth()
     #username = str(input("Enter your username: "))
     #password = str(input("Enter your master password: "))

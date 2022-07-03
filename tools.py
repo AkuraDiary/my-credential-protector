@@ -88,14 +88,6 @@ def update():
 DEPENDENCIES TOOLS
 """
 
-"""
-BACKUP CONVINENCE METHODS TOOLS
-"""
-
-"""
-BACKUP CONVINENCE METHODS TOOLS
-"""
-
 if __name__ == '__main__':
     print("THIS IS TOOLS MODULES TODO (ADD DOCUMENTATION)")
 
