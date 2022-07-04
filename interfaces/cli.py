@@ -60,7 +60,7 @@ def use_cli():
             adapter.change_token()
         elif choice == "7":
             message_info("Exiting MCP CLI Mode")
-            exit()
+            sys.exit()
         else:
             message_info("Invalid choice")
             continue

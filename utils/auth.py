@@ -5,6 +5,7 @@ from utils.config_utilities import *
 from utils.log_neko import *
 from utils.validation import *
 from getpass import getpass
+import sys
 
 config = load_config("config.json")
 tokenFile = load_config(config["cipher-token-file"])
@@ -53,7 +54,7 @@ def do_login(_username, _password):
             update_auth_hash(_username, _password)
             message_info("Please Re run the program")
             return True
-        exit()
+        sys.exit()
   
 
 def cli_do_auth(sendResponse=False):

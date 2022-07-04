@@ -45,7 +45,7 @@ def load_user_token():
     else:
         message_warn("Failed to load token and private key")
         message_warn("Please restart the application")
-        exit()
+        sys.exit()
            
 def validate_private_key(token, privateKeyHash):
     sigma=loadSigma()
@@ -153,7 +153,7 @@ def init_on_start():
     else:
         message_warn("User Authentication failed")
         message_warn("Exiting")
-        exit()
+        sys.exit()
 
 def init_core_module():
     

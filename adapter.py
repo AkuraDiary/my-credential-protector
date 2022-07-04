@@ -96,7 +96,7 @@ def main():
             use_cli()
         except KeyboardInterrupt:
             message_info("Exiting MCP CLI Mode")
-            exit()
+            sys.exit()
     elif mode == "ui":
         message_info("Initializing MCP UI Mode")
         message_warn("DO NOT CLOSE THIS TERMINAL")

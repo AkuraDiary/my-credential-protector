@@ -1,10 +1,8 @@
 from msilib.schema import ListBox
-from pkgutil import get_data
 import sys
 from tkinter import *
 import os
 import ctypes
-from tkinter import dialog
 from tkinter import messagebox
 from tokenize import String
 from core import init_user_auth

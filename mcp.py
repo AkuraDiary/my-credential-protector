@@ -4,4 +4,4 @@ if __name__ == "__main__":
         main()
     except KeyboardInterrupt:
         message_info("Exiting")
-        exit()
+        sys.exit()

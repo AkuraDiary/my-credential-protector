@@ -1,7 +1,5 @@
 from hashlib import sha256
 
-from tomlkit import string
-
 from utils.config_utilities import *
 from utils.file_utilities import *
 
@@ -15,14 +13,14 @@ CORE METHODS IN THIS MODULE
 def hash_string(string):
     return sha256(string.encode()).hexdigest()
 
-def validate_string_hash(data: string, hash: string):#FOR STRING
+def validate_string_hash(data, hash):#FOR STRING
     #check if the hash is correct
     if hash_string(data) == hash:
         return True
     else:
         return False
 
-def validate_file_hash(filename: string, hash: string):#FOR FILE
+def validate_file_hash(filename, hash):#FOR FILE
     #check if the hash is correct
     if hash_file(filename) == hash:
         return True
