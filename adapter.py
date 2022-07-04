@@ -30,14 +30,25 @@ def list_secured_credentials(retrieve_list=False):
         
 
 def change_token():
-    message_warn("Warning, this is will change your token and you might won't be able to use it to read your previeous encrypted file")
+    message_warn("Warning, this is will change your token and private key")
     choice = input("Are you sure you want to continue? (y/n): ")
     print()
     if choice == "y":
-        
-        init_token()
-        load_user_token()
-        message_info("You Have to restart the programs in order to apply the changes")
+        do_backup()
+        auth_response = cli_do_auth(sendResponse=True) #get the previous credentials, because credential hashing is binded with token
+        username, password, response = auth_response[0], auth_response[1], auth_response[2]
+        if(response):
+            init_token()
+            load_user_token()
+            ### update the user cred hash
+            user_cred_config = config["usr-cred-file"]
+            hashedUsrname = hash_string(username + user_token)
+            hashedPassword = hash_string(password + user_token)
+            add_entry_to_config(user_cred_config, "username", hashedUsrname)
+            add_entry_to_config(user_cred_config, "password", hashedPassword)
+            ### update the user cred hash
+            
+            message_info("You Have to restart the programs in order to apply the changes")
         
     else:
         message_info("Token not changed")
@@ -56,8 +67,11 @@ def rescan_for_new_files():
     scan_credentials_dir()
 
 def check_for_updates():
+    do_backup()
     message_info("Checking for updates")
     update()
+    
+
 
 def add_credentials(_filename:String):
     if ".txt" not in _filename:

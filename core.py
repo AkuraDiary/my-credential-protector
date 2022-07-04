@@ -50,6 +50,7 @@ def load_user_token():
 def validate_private_key(token, privateKeyHash):
     sigma=loadSigma()
     privateKey = sigma.generate_private_key(token)
+    
     if validate_string_hash(privateKey, privateKeyHash):
         message_info("Private key is valid")
         return privateKey
@@ -105,7 +106,8 @@ def init_config(filenames):
         open(filenames["cipher-token-file"], "w").close()
     if is_empty(filenames["hashes-file"]):
         open(filenames["hashes-file"], "w").close()
-    open(filenames["usr-cred-file"], "w").close()
+    if is_empty(filenames["usr-cred-file"]):
+        open(filenames["usr-cred-file"], "w").close()
 
 def init_user_auth():
     message_info("Initializing User Authentication")
@@ -114,7 +116,7 @@ def init_user_auth():
 
     user_cred_config = config["usr-cred-file"]
     username = input("Enter your username: ")
-    password = input("Enter your master password: ")
+    password = getpass("Enter your master password: ")
 
     hashedUsrname = hash_string(username + user_token)
     hashedPassword = hash_string(password + user_token)
@@ -144,6 +146,9 @@ def init_on_start():
     message_info("Initializing")
     
     if(cli_do_auth()):
+        if os.path.exists(config["backup-path"]):
+            message_info("checking for backup")
+            import_backup()
         threading.Thread(scan_credentials_dir()).start()
     else:
         message_warn("User Authentication failed")
@@ -169,6 +174,7 @@ def init_core_module():
 """
 INIT METHODS
 """ 
+    
 
 """
 METHOD THAT CONNECTS INTO SIGMA MODULE
@@ -184,7 +190,8 @@ def encrypt_file(filename):
     file_path = config["cred-input-dir"] + "\\" + filename
 
     data = readFileContent(file_path)
-    encrypted_data = sigma.start_encode(data, user_token)
+    # encrypted_data = sigma.start_encode(data, user_token, False)
+    encrypted_data = sigma.start_encode(data, user_token) # default new sigma version
     
     message_info(f"Moving {filename} file to .\\secured-credentials")
     encrypted_filename = makeCopyOfFile(filename, encrypted_data, path=secured_path, retrieve_fileName=True)
@@ -222,10 +229,11 @@ def read_encrypted_file(filename):
     message_info("Validating file's hash")
     if (validate_file_hash(file_path, file_hash)):
         message_info("File's hash is valid")
-        data = readFileContent(file_path)
-        decrypted_data = sigma.start_decode(data, user_private_key)
+        data = readFileContent(file_path)       
         
+        decrypted_data = sigma.start_decode(data, user_private_key) #default sigma version
         return decrypted_data
+        
 
     else:
         message_warn("File's hash is invalid")
@@ -246,6 +254,8 @@ def start():
 if __name__ == '__main__':
     print("THIS IS CORE MODULE")
     start()
+    # do_backup()
+    # import_backup()
     #init_user_auth()
     #username = str(input("Enter your username: "))
     #password = str(input("Enter your master password: "))
