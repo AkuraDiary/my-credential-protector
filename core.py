@@ -116,7 +116,7 @@ def init_user_auth():
 
     user_cred_config = config["usr-cred-file"]
     username = input("Enter your username: ")
-    password = input("Enter your master password: ")
+    password = getpass("Enter your master password: ")
 
     hashedUsrname = hash_string(username + user_token)
     hashedPassword = hash_string(password + user_token)

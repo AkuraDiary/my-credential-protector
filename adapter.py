@@ -30,10 +30,11 @@ def list_secured_credentials(retrieve_list=False):
         
 
 def change_token():
-    message_warn("Warning, this is will change your token and \nYOU WON'T BE ABLE TO USE THE TOKEN TO READ YOU PREVIOUSLY ENCRPYTED CREDENTIALS")
+    message_warn("Warning, this is will change your token and private key")
     choice = input("Are you sure you want to continue? (y/n): ")
     print()
     if choice == "y":
+        do_backup()
         auth_response = cli_do_auth(sendResponse=True) #get the previous credentials, because credential hashing is binded with token
         username, password, response = auth_response[0], auth_response[1], auth_response[2]
         if(response):

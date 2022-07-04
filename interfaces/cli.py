@@ -33,8 +33,8 @@ def use_cli():
         print("2. Read Credentials")
         print("3. Rescan for new files")
         print("4. Check For Updates")
-        print("5. Change Token")
-        print("6. Change User Account Credentials")
+        print("5. Change User Account Credentials")
+        print("6. Change Token")
         print("7. Exit")
         print()
         choice = input("Enter your choice: ")
@@ -55,9 +55,9 @@ def use_cli():
             adapter.check_for_updates()
             sleep(3)
         elif choice == "5":
-            adapter.change_token()
-        elif choice == "6":
             adapter.change_user_acc_cred()
+        elif choice == "6":
+            adapter.change_token()
         elif choice == "7":
             message_info("Exiting MCP CLI Mode")
             exit()
