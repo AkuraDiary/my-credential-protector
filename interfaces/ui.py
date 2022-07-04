@@ -162,6 +162,11 @@ def ui_add_new_cred():
     _sdialog.bind("<Return>", lambda event: adapter.add_credentials(txt_filename.get()))
     _sdialog.mainloop()
 
+def ui_update():
+    adapter.check_for_updates()
+    messagebox.showinfo("Update", "Check terminal for more information")
+    
+
 """
 FEATURE METHODS
 """
@@ -191,6 +196,14 @@ def init_ui():
 
     # getting the secured credentials files and populate it ito the list
     show_credentials(_list = files_list)
+
+    
+    check_for_update_btn=Button(
+        _window, 
+        text="Check for Update", 
+        fg='white', 
+        command=lambda: ui_update(),
+        )
 
     scan_for_new_cred_btn=Button(
         _window, 
@@ -228,13 +241,13 @@ def init_ui():
     """
     PACK
     """
+    change_user_master_cred_btn.pack(side=TOP, pady=8, padx=2)
     main_display_box.pack( expand=True, fill=BOTH, ipadx=10, ipady=10) #display pack
 
     files_list.pack( expand=True, fill=X) # list pack
 
     # buttons pack    
-    
-    change_user_master_cred_btn.pack(side=LEFT, pady=8, padx=2)
+    check_for_update_btn.pack(side=LEFT, pady=8, padx=2)
     scan_for_new_cred_btn.pack(side=LEFT, pady=2, padx=2)
     new_cred_btn.pack(side=LEFT)
 
