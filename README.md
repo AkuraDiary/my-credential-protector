@@ -1,5 +1,6 @@
 # my-credential-protector 🥙
 [ Type ] : Personal Project
+
 [ Description ] :
 A simple project to make simple things such as securing credentials to be complicated af, implementing my cipher project that [you can found it here](https://github.com/AkuraDiary/sigma_ciphers_cryptograms) and some hashing stuff
 
